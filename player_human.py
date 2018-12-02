@@ -16,7 +16,7 @@ class PlayerHuman:
                     print("そこおけへんで〜〜")
             except Exception as e:
                 print("アホちゃう?")
-        return act
+    #    return act
 
     # def getGameResult(self, board):
     #     if board.winner is not None and board.winner != self.myturn and board.winner != draw:
