@@ -18,10 +18,10 @@ class ReversiBoard:
             self.board = []
             for i in range(64):
                 self.board.append(empty)
-            self.board[27] = 1
-            self.board[28] = -1
-            self.board[35] = -1
-            self.board[36] = 1
+            self.board[27] = player_w
+            self.board[28] = player_b
+            self.board[35] = player_b
+            self.board[36] = player_w
 
 
         else:
@@ -58,8 +58,8 @@ class ReversiBoard:
 
     def get_possible_pos(self, player):
         board_8x8 = np.array(self.board).reshape(8, 8)
-        pad_1 = np.full((1, 8), -999)
-        pad_2 = np.full((10, 1), -999)
+        pad_1 = np.full((1, 8), error)
+        pad_2 = np.full((10, 1), error)
         a = np.vstack((pad_1, board_8x8))
         b = np.vstack((a, pad_1))
         c = np.hstack((pad_2, b))
