@@ -4,13 +4,13 @@ class PlayerHuman:
         self.myturn = turn
 
     def act(self, board):
-        valid = False
-        while not valid:
+        valid = True
+        while valid:
             try:
                 act = input(str(marks[self.myturn]) + "どこ置きまっか？:")
                 act = int(act)
                 if act - 1 in board.get_possible_pos(self.myturn):
-                    valid = True
+                    valid *= -1
                     return act - 1
                 else:
                     print("そこおけへんで〜〜")
