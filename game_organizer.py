@@ -185,7 +185,7 @@ class ReversiBoard:
 
 
 class ReversiOrgnaizer:
-    act_turn = 0
+    # act_turn = 0
     winner = None
 
     def __init__(self, pw, pb, nplay=1, show_board=True, show_result=True, stat=10000):
