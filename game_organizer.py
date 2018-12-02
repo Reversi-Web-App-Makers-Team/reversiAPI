@@ -4,24 +4,24 @@ import random
 empty = 0
 player_w = 1
 player_b = -1
-marks = {empty:" ", player_w:"⚪️", player_b:"⚫️"}
+marks = {empty: " ", player_w: "⚪️", player_b: "⚫️"}
 draw = 2
 error = -999
 
 class ReversiBoard:
 
-    def __init__(self,board=None):
+    def __init__(self, board=None):
         self.index_board = []
         for i in range(64):
-            self.index_board.append(i+1)
-        if board==None:
-            self.board=[]
+            self.index_board.append(i + 1)
+        if board == None:
+            self.board = []
             for i in range(64):
                 self.board.append(empty)
-            self.board[27]=1
-            self.board[28]=-1
-            self.board[35]=-1
-            self.board[36]=1
+            self.board[27] = 1
+            self.board[28] = -1
+            self.board[35] = -1
+            self.board[36] = 1
 
 
         else:
@@ -32,10 +32,10 @@ class ReversiBoard:
 
     def select_pos_roop(self, d1, d0, i, board, player):
         self.counter += 1
-        board_i = board[i//8+1+d1[0]][i%8+1+d1[1]]
+        board_i = board[i // 8 + 1 + d1[0]][i % 8 + 1 + d1[1]]
         if board_i == player:
             return i, self.counter
-        elif board_i == -1*player:
+        elif board_i == -1 * player:
             d2 = [0, 0]
             d2[0] = d1[0] + d0[0]
             d2[1] = d1[1] + d0[1]
@@ -45,19 +45,19 @@ class ReversiBoard:
 
     def select_pos(self, d1, d0, i, board, player):
         self.counter += 1
-        board_i = board[i//8+1+2*d1[0]][i%8+1+2*d1[1]]
+        board_i = board[i // 8 + 1 + 2 * d1[0]][i % 8 + 1 + 2 * d1[1]]
         if board_i == player:
             return i, self.counter
-        elif board_i == -1*player:
+        elif board_i == -1 * player:
             d2 = [0, 0]
-            d2[0] = 2*d1[0] + d0[0]
-            d2[1] = 2*d1[1] + d0[1]
+            d2[0] = 2 * d1[0] + d0[0]
+            d2[1] = 2 * d1[1] + d0[1]
             return self.select_pos_roop(d2, d0, i, board, player)
         else:
             return error, empty
 
     def get_possible_pos(self, player):
-        board_8x8 = np.array(self.board).reshape(8,8)
+        board_8x8 = np.array(self.board).reshape(8, 8)
         pad_1 = np.full((1, 8), -999)
         pad_2 = np.full((10, 1), -999)
         a = np.vstack((pad_1, board_8x8))
@@ -69,59 +69,59 @@ class ReversiBoard:
             if self.board[i] == empty:
                 empty_index.append(i)
 
-        pos=[]
+        pos = []
         for i in empty_index:
-            d_d = [0,0,0,0,0,0,0,0]
-            if padded_board[i//8][i%8+1] == -1*player:
+            d_d = [0, 0, 0, 0, 0, 0, 0, 0]
+            if padded_board[i // 8][i % 8 + 1] == -1 * player:
                 ip, counter = self.select_pos([-1, 0], [-1, 0], i, padded_board, player)
                 if ip == i:
                     d_d[0] = counter
                     if i not in pos:
                         pos.append(ip)
                 self.counter = 0
-            if padded_board[i//8][i%8+2] == -1*player:
+            if padded_board[i // 8][i % 8 + 2] == -1 * player:
                 ip, counter = self.select_pos([-1, 1], [-1, 1], i, padded_board, player)
                 if ip == i:
                     d_d[1] = counter
                     if i not in pos:
                         pos.append(ip)
                 self.counter = 0
-            if padded_board[i//8+1][i%8+2] == -1*player:
+            if padded_board[i // 8 + 1][i % 8 + 2] == -1 * player:
                 ip, counter = self.select_pos([0, 1], [0, 1], i, padded_board, player)
                 if ip == i:
                     d_d[2] = counter
                     if i not in pos:
                         pos.append(ip)
                 self.counter = 0
-            if padded_board[i//8+2][i%8+2] == -1*player:
+            if padded_board[i // 8 + 2][i % 8 + 2] == -1 * player:
                 ip, counter = self.select_pos([1, 1], [1, 1], i, padded_board, player)
                 if ip == i:
                     d_d[3] = counter
                     if i not in pos:
                         pos.append(ip)
                 self.counter = 0
-            if padded_board[i//8+2][i%8+1] == -1*player:
+            if padded_board[i // 8 + 2][i % 8 + 1] == -1 * player:
                 ip, counter = self.select_pos([1, 0], [1, 0], i, padded_board, player)
                 if ip == i:
                     d_d[4] = counter
                     if i not in pos:
                         pos.append(ip)
                 self.counter = 0
-            if padded_board[i//8+2][i%8] == -1*player:
+            if padded_board[i // 8 + 2][i % 8] == -1 * player:
                 ip, counter = self.select_pos([1, -1], [1, -1], i, padded_board, player)
                 if ip == i:
                     d_d[5] = counter
                     if i not in pos:
                         pos.append(ip)
                 self.counter = 0
-            if padded_board[i//8+1][i%8] == -1*player:
+            if padded_board[i // 8 + 1][i % 8] == -1 * player:
                 ip, counter = self.select_pos([0, -1], [0, -1], i, padded_board, player)
                 if ip == i:
                     d_d[6] = counter
                     if i not in pos:
                         pos.append(ip)
                 self.counter = 0
-            if padded_board[i//8][i%8] == -1*player:
+            if padded_board[i // 8][i % 8] == -1 * player:
                 ip, counter = self.select_pos([-1, -1], [-1, -1], i, padded_board, player)
                 if ip == i:
                     d_d[7] = counter
@@ -138,7 +138,7 @@ class ReversiBoard:
             temp_board.append(marks[i])
         for i in range(64):
             if temp_board[i] == " ":
-                temp_board[i] = "%02d"%self.index_board[i]
+                temp_board[i] = "%02d" % self.index_board[i]
         row = " {} | {} | {} | {} | {} | {} | {} | {} "
         hr = "\n---------------------------------------\n"
 
@@ -156,32 +156,33 @@ class ReversiBoard:
     def move(self, act, player):
         self.board[act] = player
         for i in range(self.dd_dict[act][0]):
-            i+=1
-            self.board[act-8*i]*=-1
+            i += 1
+            self.board[act - 8 * i] *= -1
         for i in range(self.dd_dict[act][1]):
-            i+=1
-            self.board[act-7*i]*=-1
+            i += 1
+            self.board[act - 7 * i] *= -1
         for i in range(self.dd_dict[act][2]):
-            i+=1
-            self.board[act+i]*=-1
+            i += 1
+            self.board[act + i] *= -1
         for i in range(self.dd_dict[act][3]):
-            i+=1
-            self.board[act+9*i]*=-1
+            i += 1
+            self.board[act + 9 * i] *= -1
         for i in range(self.dd_dict[act][4]):
-            i+=1
-            self.board[act+8*i]*=-1
+            i += 1
+            self.board[act + 8 * i] *= -1
         for i in range(self.dd_dict[act][5]):
-            i+=1
-            self.board[act+7*i]*=-1
+            i += 1
+            self.board[act + 7 * i] *= -1
         for i in range(self.dd_dict[act][6]):
-            i+=1
-            self.board[act-i]*=-1
+            i += 1
+            self.board[act - i] *= -1
         for i in range(self.dd_dict[act][7]):
-            i+=1
-            self.board[act-9*i]*=-1
+            i += 1
+            self.board[act - 9 * i] *= -1
 
     def clone(self):
         return ReversiBoard(self.board.copy())
+
 
 class ReversiOrgnaizer:
     act_turn = 0
@@ -190,9 +191,9 @@ class ReversiOrgnaizer:
     def __init__(self, pw, pb, nplay=1, show_board=True, show_result=True, stat=10000):
         self.player_w = pw
         self.player_b = pb
-        self.nwon = {pw.myturn:0,pb.myturn:0,draw:0}
+        self.nwon = {pw.myturn: 0, pb.myturn: 0, draw: 0}
         self.nplay = nplay
-        self.players = (self.player_w,self.player_b)
+        self.players = (self.player_w, self.player_b)
         self.board = None
         self.disp = show_board
         self.show_result = show_result
@@ -210,15 +211,15 @@ class ReversiOrgnaizer:
                     print(self.player_turn.name + "の番やで〜")
                     p_pos = self.board.get_possible_pos(self.player_turn.myturn)
                     plus_1 = [1 for i in range(len(p_pos))]
-                    print(np.array(p_pos)+np.array(plus_1))
+                    print(str(np.array(p_pos) + np.array(plus_1)) + "に置けるで")
                 act = self.player_turn.act(self.board)
                 self.board.move(act, self.player_turn.myturn)
                 if self.disp:
                     self.board.print_board()
                 self.switch_player()
                 if self.board.winner != None:
-                    for i in self.players:
-                        i.getGameResult(self.board)
+                    # for i in self.players:
+                    #     i.getGameResult(self.board)
                     if self.board.winner == draw:
                         if self.show_result:
                             print ("おあいこやないかい!")
@@ -226,13 +227,15 @@ class ReversiOrgnaizer:
                         out = self.player_turn.name + "の勝ちやで〜〜よーやったなあ！"
                         if self.show_result:
                             print(out)
-                    self.player_turn.getGameResult(self.board)
-            
-            self.nwon[self.board.winner] +=1
+                    # self.player_turn.getGameResult(self.board)
+
+            self.nwon[self.board.winner] += 1
             self.nplayed += 1
-            if self.nplayed%self.stat==0 or self.nplayed==self.nplay:
-                print(self.player_w.name+":"+str(self.nwon[self.player_w.myturn])+","+self.player_b.name+":"+str(self.nwon[self.player_b.myturn])
-             +",おあいこ:"+str(self.nwon[draw]))
+            # if self.nplayed % self.stat == 0 or self.nplayed == self.nplay:
+            #     print(self.player_w.name + ":" + str(
+            #         self.nwon[self.player_w.myturn]) + "," + self.player_b.name + ":" + str(
+            #         self.nwon[self.player_b.myturn])
+            #           + ",おあいこ:" + str(self.nwon[draw]))
 
     def switch_player(self):
         if self.player_turn == self.player_w:

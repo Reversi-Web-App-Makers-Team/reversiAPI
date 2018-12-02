@@ -7,17 +7,17 @@ class PlayerHuman:
         valid = False
         while not valid:
             try:
-                act = input("どこ置きまっか？" + str(marks[self.myturn]))
+                act = input(str(marks[self.myturn]) + "どこ置きまっか？:")
                 act = int(act)
-                if act-1 in board.get_possible_pos(self.myturn):
+                if act - 1 in board.get_possible_pos(self.myturn):
                     valid = True
                     return act - 1
-                elif act-1 not in board.get_possible_pos(self.myturn):
+                else:
                     print("そこおけへんで〜〜")
             except Exception as e:
-                print(act + "はやめて")
+                print("アホちゃう?")
         return act
 
-    def getGameResult(self, board):
-        if board.winner is not None and board.winner != self.myturn and board.winner != draw:
-            print(self.name + "の負けや")
+    # def getGameResult(self, board):
+    #     if board.winner is not None and board.winner != self.myturn and board.winner != draw:
+    #         print("おまえの負けや")
