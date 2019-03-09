@@ -1,3 +1,4 @@
+import sys
 import random
 
 import numpy as np
@@ -115,12 +116,16 @@ class ReversiProcessor(object):
             # while the winner is defined, progress the game
             while self.__reversi_packages.check_winner() == None:
                 if self.__display_board:
-                    print(self.__whose_turn.name + "の番やで〜")
-                    stone_putable_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.myturn)
-                    plus_one_index = [1 for i in range(len(stone_putable_pos))]
-                    print(str(np.array(stone_putable_pos) + np.array(plus_one_index)) + "に置けるで")
-                put_stone = self.__whose_turn.put_stone(self.__reversi_packages)
-                self.__reversi_packages.reversing_stones(put_stone, self.__whose_turn.myturn)
+
+                    sys.stdout.write("\r" + self.__whose_turn.name + "の番やで〜")
+                    sys.stdout.flush()
+                    p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.myturn)
+                    plus_1 = [1 for i in range(len(p_pos))]
+                    sys.stdout.write("\r" + str(np.array(p_pos) + np.array(plus_1)) + "に置けるで")
+                    sys.stdout.flush()
+                act = self.__whose_turn.act(self.__reversi_packages)
+                self.__reversi_packages.reversing_stones(act, self.__whose_turn.myturn)
+
                 if self.__display_board:
                     self.__reversi_packages.display_board()
                 self.switch_player()
