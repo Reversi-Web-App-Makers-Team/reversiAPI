@@ -7,7 +7,7 @@ class ReversiPackages(object):
     '''
     This class is packages used in reversi_processor.py
     '''
-    
+
     def __init__(self, board=None, options=None, display_board=True):
         
         '''
