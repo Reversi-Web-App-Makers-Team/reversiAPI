@@ -1,23 +1,20 @@
 class PlayerHuman:
-    def __init__(self, turn, name):
+    def __init__(self, name, stone_color):
         self.name = name
-        self.myturn = turn
+        self.stone_color = stone_color
 
-    def act(self, board):
-        valid = True
-        while valid:
+    @classmethod
+    def put_stone(self, reversi_packages):
+        is_invalid_putting = True
+        while is_invalid_putting:
             try:
-                act = input(str(marks[self.myturn]) + "どこ置きまっか？:")
-                act = int(act)
-                if act - 1 in board.get_possible_pos(self.myturn):
-                    valid *= -1
-                    return act - 1
+                print("どこ置きまっか？:", end=' ')
+                stone_putting_place = int(input())
+                print(stone_putting_place)
+                if stone_putting_place - 1 in reversi_packages.stone_putable_pos(self.stone_color):
+                    is_invalid_putting = False
+                    return stone_putting_place - 1
                 else:
                     print("そこおけへんで〜〜")
             except Exception as e:
                 print("アホちゃう?")
-    #    return act
-
-    # def getGameResult(self, board):
-    #     if board.winner is not None and board.winner != self.myturn and board.winner != draw:
-    #         print("おまえの負けや")
