@@ -40,7 +40,7 @@ class ReversiProcessor(object):
                                         Args:
                                             board(list):
                                                 shape = (64, 1)
-                                                instruction: game board infomation
+                                                instruction: game board information
 
             options(toml):
                 global variables
@@ -108,27 +108,45 @@ class ReversiProcessor(object):
                     display_board = self.__display_board)
             self.__reversi_packages.display_board()
 
-            while self.board.winner == None:
-                if self.disp:
+            while self.__reversi_packages.check_winner() == None:
+                if self.__display_board:
                     print(self.__whose_turn.name + "の番やで〜")
-                    p_pos = self.board.get_possible_pos(self.__whose_turn.myturn)
+                    p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.myturn)
                     plus_1 = [1 for i in range(len(p_pos))]
                     print(str(np.array(p_pos) + np.array(plus_1)) + "に置けるで")
-                act = self.__whose_turn.act(self.board)
+                act = self.__whose_turn.act(self.__reversi_packages)
+                self.__reversi_packages.reversing_stones(act, self.__whose_turn.myturn)
+                if self.__display_board:
+                    self.__reversi_packages.display_board()
+                self.switch_player()
+                if self.__reversi_packages.check_winner() != None:
+                    # for i in self.players:
+                    #     i.getGameResult(self.board)
+                    if self.__reversi_packages.check_winner() == self.__options['DRAW']:
+                        if self.__display_result:
+                            print("おあいこやないかい!")
+                    elif self.__reversi_packages.check_winner() == self.__whose_turn.myturn:
+                        out = self.__whose_turn.name + "の勝ちやで〜〜よーやったなあ！"
+                        if self.__display_result:
+                            print(out)
+                    # self.__whose_turn.getGameResult(self.board)
+
+            self.nwon[self.board.winner] += 1
+            self.nplayed += 1
 
 
     def switch_player(self):
         if self.__whose_turn == self.__player_white:
-            if not self.__board.get_possible_pos(self.__options['BLACK']):
+            if not self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
                 self.__whose_turn = self.__player_black
-            elif self.__board.get_possible_pos(self.__options['BLACK']):
+            elif self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
                 self.__whose_turn = self.__player_white
-                if self.__board.get_possible_pos(self.__options['WHITE']):
-                    self.__board.check_winner()
+                if self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
+                    self.__reversi_packages.check_winner()
         else:
-            if not self.__board.get_possible_pos(self.__options['WHITE']):
+            if not self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
                 self.__whose_turn = self.__player_white
-            elif self.__board.get_possible_pos(self.__options['WHITE']):
+            elif self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
                 self.__whose_turn = self.__player_black
-                if self.__board.get_possible_pos(self.__options['BLACK']):
-                    self.__board.check_winner()
+                if self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
+                    self.__reversi_packages.check_winner()
