@@ -131,8 +131,8 @@ class ReversiProcessor(object):
                             print(out)
                     # self.__whose_turn.getGameResult(self.board)
 
-            self.nwon[self.board.winner] += 1
-            self.nplayed += 1
+            self.__win_num_cnt[self.__reversi_packages.check_winner()] += 1
+            self.__finished_game_num += 1
 
 
     def switch_player(self):
