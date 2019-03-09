@@ -16,20 +16,20 @@ class ReversiPackages(object):
             board(list):
                 shape = (total_square_num=64, 1)
                 instructions: board state.
-                              empty -> 0
-                              white -> 1
-                              brack -> -1
+                              empty(no stone) -> 0
+                              white stone -> 1
+                              brack stone -> -1
             options(toml):
                 global parameters.
         '''
         
-        # options is global parameters.
+        # self.__options is global parameters.
         if options == None:
             self.__options = toml.load(./settings.toml)['REVERSI_PACKAGES']
         else:
             self.__options = options
         
-        # board is game board
+        # self.__board is game board
         if board == None:
             self.__board=[]
             
@@ -46,5 +46,10 @@ class ReversiPackages(object):
         else:
             self.__board = board
             
+        # self.__winner flag is used when checking winner.
         self.__winner == None
-        self.__vector_and_distance_dict = {}
+
+        # self.__reversed_stone_number_dict: dictionary
+        #   keys: empty(no stone) index in game board
+        #   values: list of how many stones reversed when putting stone there for all 8 directions
+        self.__reversed_stone_number_dict = {}
