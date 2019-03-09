@@ -131,8 +131,8 @@ class ReversiPackages(object):
         if status == self.__options['CHANGE_COLOR'] * stone_color:
             base_vector[0] += unit_vector[0]
             base_vector[1] += unit_vector[1]
-            is_reversible, counter = self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board,
-                                                                         stone_color)
+            is_reversible, counter = \
+                self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board, stone_color)
 
         # if status is same as the stone_color, return True and counter
         elif status == stone_color:
@@ -185,8 +185,8 @@ class ReversiPackages(object):
             base_vector = [0, 0]
             base_vector[0] = 3 * unit_vector[0]
             base_vector[1] = 3 * unit_vector[3]
-            is_reversible, counter = self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board,
-                                                                         stone_color, counter)
+            is_reversible, counter = \
+                self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board, stone_color, counter)
         # if status is same as the stone_color, return True and counter
         elif status == stone_color:
             is_reversible = True
@@ -210,7 +210,7 @@ class ReversiPackages(object):
                               brack -> -1
 
         Returns:
-            pos(list):
+            putable_pos(list):
                 shape = (the number of stone putable position)
                 instructions:
                     get stone putable position list
@@ -226,27 +226,42 @@ class ReversiPackages(object):
         vertical_padded_board = np.vstack((vertical_edge_pad, board_8x8, vertical_edge_pad))
         padded_board = np.hstack((horizontal_edge_pad, vertical_padded_board, horizontal_edge_pad))
 
-
         empty_pos_index_list = []
         for index in range(self.__options['SQUARE_NUM']):
             if self.__board[index] == self.__options['EMPTY']:
                 empty_pos_index_list.append(index)
 
-        pos = set()
+        # putable_pos_set is a set of stone putable place
+        putable_pos_set = set()
+
+        # for every empty place, validate if the stone is putable
         for empty_pos_index in empty_pos_index_list:
             reversible_stone_number_list = self.__options['INITIAL_REVERSIBLE_STONE_NUMBER_LIST']
+
+            # for every direction from the index, validate if there is the reversible stone
             for index in range(self.__options['VECTOR_NUM']):
                 vector = self.__options['ALL_VECTOR'][index]
-                if padded_board[self._get_index_in_padded_board(empty_pos_index)[0] + vector[0]][
-                    self._get_index_in_padded_board(empty_pos_index)[1] + vector[1]] == self.__options['CHANGE_COLOR'] * \
-                        stone_color:
+
+                # if the place next to index place have the stone which color is different from the player stone color,
+                if padded_board[self._get_index_in_padded_board(empty_pos_index)[0] +
+                                vector[0]][self._get_index_in_padded_board(empty_pos_index)[1] + vector[1]] == \
+                        self.__options['CHANGE_COLOR'] * stone_color:
+
+                    # validate is the stone is reversible by _get_reversible_stone_num
                     is_reversible, counter = \
                         self._get_reversible_stone_num(vector, empty_pos_index, padded_board, stone_color)
+
+                    # if there is reversible stones, save the vector and the number of stones in
+                    # reversible_stone_number_list and save the index in putable_pos_set
                     if is_reversible:
                         reversible_stone_number_list[index] = counter
-                        pos.add(empty_pos_index)
+                        putable_pos_set.add(empty_pos_index)
+
+            # save the empty_pos_index and reversible_stone_number_list in reversible_stone_number_dict to use in
+            # reversing_stones function
             self.__reversible_stone_number_dict[empty_pos_index] = reversible_stone_number_list
-        return list(pos)
+            
+        return list(putable_pos_set)
 
     def check_winner(self):
 
