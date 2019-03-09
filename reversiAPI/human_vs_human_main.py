@@ -1,5 +1,5 @@
-from reversiAPI.players import PlayerHuman
-from reversiAPI.utils import ReversiProcessor
+from reversiAPI.players.player_human import PlayerHuman
+from reversiAPI.utils.reversi_processor import ReversiProcessor
 
 def _human_vs_human(white, black):
     player_white_name = input("player1の名前は?:")
@@ -20,4 +20,4 @@ def _main():
     _human_vs_human(1, -1)
 
 if __name__ == '__main__':
-    main()
+    _main()
