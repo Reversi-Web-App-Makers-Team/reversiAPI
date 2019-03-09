@@ -4,3 +4,4 @@
   BRACK=-1
   DRAW=2
   ERROR=-999
+  SQUARE_NUM=64
