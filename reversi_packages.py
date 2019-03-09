@@ -84,7 +84,8 @@ class ReversiPackages(object):
 
     def _get_reversible_stone_num_loop(self, base_vector, unit_vector, index, padded_board, stone_color, counter):
         '''
-
+         this function get the if the stone is reversible in the index and vector,
+         and also get the number of reversible stone
         Args:
             base_vector(list):
                 shape = (2,1)
@@ -98,7 +99,7 @@ class ReversiPackages(object):
                 shape = ()
                 instruction: index of the empty place in one dimension array which length is 64.
 
-            padded_board(list):
+            padded_board(numpy error):
                 shape = (10,10)
                 instruction: padded Reversi board
 
@@ -114,21 +115,33 @@ class ReversiPackages(object):
                     true -> the stone is reversible in this index and vector
                     false -> the stone is not reversible in this index and vector
 
+            count(int):
+                shape = ()
+                instruction: the number of reversible stone
 
         '''
         # counter counts the number of reversible stone
         counter += 1
+
+        # status is the status in focused place of this function
         status = padded_board[self._get_index_in_padded_board(index)[0] +
                               base_vector[0]][self._get_index_in_padded_board(index)[1] + base_vector[1]]
 
+        # if status is different to the stone_color, use _get_reversible_stone_num_loop to conclude the count
         if status == self.__options['CHANGE_COLOR'] * stone_color:
-            base_vector += unit_vector
+            base_vector[0] += unit_vector[0]
+            base_vector[1] += unit_vector[1]
             is_reversible, counter = self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board,
                                                                          stone_color)
+
+        # if status is same as the stone_color, return True and counter
         elif status == stone_color:
             is_reversible = True
+
+        # if status is empty or edge, return False to is_reversible
         else:
             is_reversible = False
+
         return is_reversible, counter
 
     def _get_reversible_stone_num(self, unit_vector, index, padded_board, stone_color):
@@ -144,7 +157,7 @@ class ReversiPackages(object):
                 shape = ()
                 instruction: index of the empty place in one dimension array which length is 64.
 
-            padded_board(list):
+            padded_board(numpy array):
                 shape = (10,10)
                 instruction: padded Reversi board
 
@@ -159,20 +172,29 @@ class ReversiPackages(object):
                 instruction:
                     true -> the stone is reversible in this index and vector
                     false -> the stone is not reversible in this index and vector
-
         '''
         # counter counts the number of reversible stone
         counter = 1
+
+        # status is the status in focused place of this function
         status = padded_board[self._get_index_in_padded_board(index) + 2 *
                               unit_vector[0]][self._get_index_in_padded_board(index) + 2 * unit_vector[1]]
+
+        # if status is different to the stone_color, use _get_reversible_stone_num_loop to conclude the count
         if status == self.__options['CHANGE_COLOR'] * stone_color:
-            base_vector = 3 * unit_vector
+            base_vector = [0, 0]
+            base_vector[0] = 3 * unit_vector[0]
+            base_vector[1] = 3 * unit_vector[3]
             is_reversible, counter = self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board,
                                                                          stone_color, counter)
+        # if status is same as the stone_color, return True and counter
         elif status == stone_color:
             is_reversible = True
+
+        # if status is empty or edge, return False to is_reversible
         else:
             is_reversible = False
+
         return is_reversible, counter
 
     def get_stone_putable_pos(self, stone_color):
@@ -194,11 +216,17 @@ class ReversiPackages(object):
                     get stone putable position list
 
         '''
+
+        # change the shape of board list to 2 dimension numpy array
         board_8x8 = np.array(self.__board).reshape(self.__options['SIDES_NUM'], self.__options['SIDES_NUM'])
-        vertical_edge_pad = np.full((1, self.__options['SIDES_NUM']), self.__options['ERROR'])
-        horizontal_edge_pad = np.full((self.__options['SIDES_NUM'] + 2, 1), self.__options['ERROR'])
+
+        # Pad the edges
+        vertical_edge_pad = np.full((1, self.__options['SIDES_NUM']), self.__options['EDGE_PAD'])
+        horizontal_edge_pad = np.full((self.__options['SIDES_NUM'] + 2, 1), self.__options['EDGE_PAD'])
         vertical_padded_board = np.vstack((vertical_edge_pad, board_8x8, vertical_edge_pad))
         padded_board = np.hstack((horizontal_edge_pad, vertical_padded_board, horizontal_edge_pad))
+
+
         empty_pos_index_list = []
         for index in range(self.__options['SQUARE_NUM']):
             if self.__board[index] == self.__options['EMPTY']:
@@ -210,7 +238,7 @@ class ReversiPackages(object):
             for index in range(self.__options['VECTOR_NUM']):
                 vector = self.__options['ALL_VECTOR'][index]
                 if padded_board[self._get_index_in_padded_board(empty_pos_index)[0] + vector[0]][
-                    self._get_index_in_padded_board(empty_pos_index)[1] + vector[1]] == self.__options['CHANGE_COLOR'] *\
+                    self._get_index_in_padded_board(empty_pos_index)[1] + vector[1]] == self.__options['CHANGE_COLOR'] * \
                         stone_color:
                     is_reversible, counter = \
                         self._get_reversible_stone_num(vector, empty_pos_index, padded_board, stone_color)
