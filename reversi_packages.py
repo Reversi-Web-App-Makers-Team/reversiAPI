@@ -55,10 +55,10 @@ class ReversiPackages(object):
         # self.__winner flag is used when checking winner.
         self.__winner == None
 
-        # self.__reversed_stone_number_dict: dictionary
+        # self.__reversable_stone_number_dict: dictionary
         #   keys: empty(no stone) index in game board
         #   values: list of how many stones reversed when putting stone there for all 8 directions
-        self.__reversed_stone_number_dict = {}
+        self.__reversable_stone_number_dict = {}
 
         # make class variables for printing board.
         if printing:
@@ -115,36 +115,36 @@ class ReversiPackages(object):
         # putting new stone.
         self.__board[putting_index] = player
 
-        # reversing stone for all 8 directions adapting to self.__reversed_stone_number_dict
-        for i in range(self.__reversed_stone_number_dict[putting_index][0]):
+        # reversing stone for all 8 directions adapting to self.__reversable_stone_number_dict
+        for i in range(self.__reversable_stone_number_dict[putting_index][0]):
             i += 1
             self.__board[putting_index - 8 * i] *= -1
 
-        for i in range(self.__reversed_stone_number_dict[putting_index][1]):
+        for i in range(self.__reversable_stone_number_dict[putting_index][1]):
             i += 1
             self.__board[putting_index - 7 * i] *= -1
 
-        for i in range(self.__reversed_stone_number_dict[putting_index][2]):
+        for i in range(self.__reversable_stone_number_dict[putting_index][2]):
             i += 1
             self.__board[putting_index + i] *= -1
 
-        for i in range(self.__reversed_stone_number_dict[putting_index][3]):
+        for i in range(self.__reversable_stone_number_dict[putting_index][3]):
             i += 1
             self.__board[putting_index + 9 * i] *= -1
 
-        for i in range(self.__reversed_stone_number_dict[putting_index][4]):
+        for i in range(self.__reversable_stone_number_dict[putting_index][4]):
             i += 1
             self.__board[putting_index + 8 * i] *= -1
 
-        for i in range(self.__reversed_stone_number_dict[putting_index][5]):
+        for i in range(self.__reversable_stone_number_dict[putting_index][5]):
             i += 1
             self.__board[putting_index + 7 * i] *= -1
 
-        for i in range(self.__reversed_stone_number_dict[putting_index][6]):
+        for i in range(self.__reversable_stone_number_dict[putting_index][6]):
             i += 1
             self.__board[putting_index - i] *= -1
 
-        for i in range(self.__reversed_stone_number_dict[putting_index][7]):
+        for i in range(self.__reversable_stone_number_dict[putting_index][7]):
             i += 1
             self.__board[putting_index - 9 * i] *= -1
 
