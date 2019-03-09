@@ -1,3 +1,5 @@
+import sys
+
 import toml
 import numpy as np
 
@@ -340,8 +342,9 @@ class ReversiPackages(object):
             hr = "\n---------------------------------------\n"
 
             # printing board
-            print(
-                (row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(*temp_board))
+            sys.stdout.write(
+                ("\r" + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(*temp_board))
+            sys.stdout.flush()
 
         else:
             return
