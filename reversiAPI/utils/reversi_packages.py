@@ -73,6 +73,7 @@ class ReversiPackages(object):
             for index in range(self.__options['SQUARE_NUM']):
                 self.__index_board_for_displaying.append(index + 1)
 
+
     def _get_index_in_padded_board(self, index_in_1d_board):
         '''
         This function get index in padded 8x8 board from one dimension board index
@@ -81,6 +82,7 @@ class ReversiPackages(object):
 
         '''
         return index_in_1d_board // self.__options['SIDES_NUM'] + 1, index_in_1d_board % self.__options['SIDES_NUM'] + 1
+
 
     def _get_reversible_stone_num_loop(self, base_vector, unit_vector, index, padded_board, stone_color, counter):
         '''
@@ -145,6 +147,7 @@ class ReversiPackages(object):
 
         return is_reversible, counter
 
+
     def _get_reversible_stone_num(self, unit_vector, index, padded_board, stone_color):
         '''
         this function get the if the stone is reversible in the index and vector,
@@ -198,6 +201,7 @@ class ReversiPackages(object):
             is_reversible = False
 
         return is_reversible, counter
+
 
     def get_stone_putable_pos(self, stone_color):
 
@@ -265,6 +269,7 @@ class ReversiPackages(object):
 
         return list(putable_pos_set)
 
+
     def check_winner(self):
 
         '''
@@ -287,6 +292,7 @@ class ReversiPackages(object):
         # if draw, sum_score = 0
         else:
             self.__winner = self.__options['DRAW']
+
 
     def reversing_stones(self, putting_index, stone_color):
 
@@ -314,6 +320,7 @@ class ReversiPackages(object):
                 i += 1
                 self.__board[putting_index - (self.__options['SIDES_NUM'] * vector[0] + vector[1]) * i] *= \
                     self.__options['CHANGE_COLOR']
+
 
     def display_board(self):
         if self.__display_board:
