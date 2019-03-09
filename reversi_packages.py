@@ -1,6 +1,5 @@
 import toml
 import numpy as np
-import copy
 
 
 class ReversiPackages(object):
@@ -270,4 +269,3 @@ class ReversiPackages(object):
 
         else:
             return
-
