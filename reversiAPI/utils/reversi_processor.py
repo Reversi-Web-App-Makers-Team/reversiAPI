@@ -22,26 +22,85 @@ class ReversiProcessor(object):
             display_result = True, 
             stat=1000000
             ):
+        
+        '''
+        initialize function
+        Args:
+            player_white_class(Class), player_black_class(Class):
+                instruction: each color (black or white) player's class.
+                             player class must two class variables and one method.
+                                class variables:
+                                    self.name(str):
+                                        player's name
+
+                                    self.stone_color(int):
+                                        white -> 1
+                                        black -> -1
+
+                                class method:
+                                    self.put_stone(self, board):
+                                        Args:
+                                            board(list):
+                                                shape = (64, 1)
+                                                instruction: game board infomation
+
+            options(toml):
+                global variables
+
+            play_game_num(int):
+                how many times playint reversi game
+
+            display_board(boolean):
+                True -> displaying board
+                False -> not displaying board
+
+            display_result(boolean):
+                True -> displaying result of game when finished
+                Flase -> not displaying result of game
+
+            stat(int):
+                TODO -> teramoto: implement here.
+        '''
+
+        # player class
         self.__player_white = player_white_class
         self.__player_black = player_black_class
+
+        # global variables
         if options == None:
             self.__options = toml.load('reversiAPI/utils/settings.toml')['REVERSI_PROCESSOR']
         else:
             self.__options = options
+
+        # how many times playing game
         self.__play_game_num = play_game_num
+
+        # display or not board and result
         self.__display_board = display_board
         self.__display_result = display_result
+
+        # stat TODO-> teramoto: implement here
         self.__stat = stat
+
+        # win number counter (dictionary)
         self.__win_num_cnt = {
                 player_white_class.myturn: 0,
                 player_black_class.myturn: 0,
                 draw: 0
                 }
+
+        # players' list
         self.__player_list = [
-                self.__player_shite,
+                self.__player_white,
                 self.__player_black
                 ]
+
+        # who puts stone next
+        #   1 -> player_white
+        #   -1 -> player_black
         self.__whose_turn = self.__player_list[random.randrange(2)]
+
+        # how many games are already played
         self.__finished_game_num = 0
 
 
