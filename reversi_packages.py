@@ -1,5 +1,6 @@
 import toml
 import numpy as np
+import copy
 
 
 class ReversiPackages(object):
@@ -73,6 +74,101 @@ class ReversiPackages(object):
             self.__index_board_for_displaying = []
             for index in range(self.__options['SQUARE_NUM']):
                 self.__index_board_for_displaying.append(index + 1)
+
+
+    def get_index_in_padded_board(self, index_in_1d_board):
+        '''
+        This function get index in padded 8x8 board from one dimension board index
+        Args board:
+        Returns:
+
+        '''
+        return index_in_1d_board // 8 + 1, index_in_1d_board % 8 + 1
+
+
+    def select_pos_loop(self, base_vector, unit_vector, index, padded_board, stone_color, counter):
+        '''
+
+        :param base_vector:
+        :param unit_vector:
+        :param index:
+        :param padded_board:
+        :param stone_color:
+        :return:
+        '''
+        counter += 1
+        index_status = padded_board[self.get_index_in_padded_board(index)[0] + base_vector[0]][self.get_index_in_padded_board(index)[1] + base_vector[1]]
+        if index_status == stone_color:
+            return index, self.counter
+        elif index_status == -1 * stone_color:
+            base_vector+=unit_vector
+            return self.select_pos_loop(base_vector, unit_vector, index, padded_board, stone_color)
+        else:
+            return False, 0
+
+    def select_pos(self, unit_vector, index, padded_board, stone_color):
+        '''
+
+        :Args
+            d1():
+            d0:
+            i:
+            board:
+            stone_color:
+        :Return:
+        '''
+        # counter counts the number of reversible stone
+        counter = 1
+        index_status = padded_board[self.get_index_in_padded_board(index) + 2 * unit_vector[0]][self.get_index_in_padded_board(index) + 2 * unit_vector[1]]
+        if index_status == stone_color:
+            return True, counter
+        elif index_status == -1 * stone_color:
+            base_vector = 3 * unit_vector
+            return self.select_pos_loop(base_vector, unit_vector, index, padded_board, stone_color,counter)
+        else:
+            return False, 0
+
+
+    def get_stone_put_able_pos_set(self, stone_color):
+        '''
+
+            Initialize class parameters.
+
+        Args:
+            stone_color(int):
+                shape = ()
+                instructions:
+                              white -> 1
+                              brack -> -1
+
+        Returns:
+            pos_set(set):
+                instructions:
+                    get stone put able position set
+
+        '''
+        board_8x8 = np.array(self.__board).reshape(8,8)
+        vertical_edge_pad = np.full((1, 8), self.__options['ERROR'])
+        horizontal_edge_pad = np.full((10, 1), self.__options['ERROR'])
+        vertical_padded_board = np.vstack((vertical_edge_pad, board_8x8, vertical_edge_pad))
+        padded_board = np.hstack((horizontal_edge_pad, vertical_padded_board, horizontal_edge_pad))
+        empty_pos_index_list = []
+        for index in range(64):
+            if self.board[index] == self.__options['EMPTY']:
+                empty_pos_index_list.append(index)
+
+        pos = {}
+        for empty_pos_index in empty_pos_index_list:
+            reversible_stone_number_list = [0, 0, 0, 0, 0, 0, 0, 0]
+            if padded_board[self.get_index_in_padded_board(empty_pos_index)[0]-1][self.get_index_in_padded_board(empty_pos_index)[1]] == -1 * stone_color:
+                put_able, counter = self.select_pos([-1, 0],  empty_pos_index, padded_board, stone_color)
+                if put_able:
+                    reversible_stone_number_list[0] = counter
+                    pos.append(empty_pos_index)
+
+            self.dd_dict[empty_pos_index] = reversible_stone_number_list
+
+        return pos
 
 
     def check_winner(self):
