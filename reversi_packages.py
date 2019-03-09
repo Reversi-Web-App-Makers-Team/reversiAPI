@@ -76,7 +76,7 @@ class ReversiPackages(object):
                 self.__index_board_for_displaying.append(index + 1)
 
 
-    def get_index_in_padded_board(self, index_in_1d_board):
+    def _get_index_in_padded_board(self, index_in_1d_board):
         '''
         This function get index in padded 8x8 board from one dimension board index
         Args board:
@@ -86,7 +86,7 @@ class ReversiPackages(object):
         return index_in_1d_board // 8 + 1, index_in_1d_board % 8 + 1
 
 
-    def select_pos_loop(self, base_vector, unit_vector, index, padded_board, stone_color, counter):
+    def _select_pos_loop(self, base_vector, unit_vector, index, padded_board, stone_color, counter):
         '''
 
         :param base_vector:
@@ -97,42 +97,54 @@ class ReversiPackages(object):
         :return:
         '''
         counter += 1
-        index_status = padded_board[self.get_index_in_padded_board(index)[0] + base_vector[0]][self.get_index_in_padded_board(index)[1] + base_vector[1]]
+        index_status = padded_board[self._get_index_in_padded_board(index)[0] + base_vector[0]][self._get_index_in_padded_board(index)[1] + base_vector[1]]
         if index_status == stone_color:
-            return index, self.counter
+            return index, counter
         elif index_status == -1 * stone_color:
             base_vector+=unit_vector
-            return self.select_pos_loop(base_vector, unit_vector, index, padded_board, stone_color)
+            return self._select_pos_loop(base_vector, unit_vector, index, padded_board, stone_color)
         else:
             return False, 0
 
-    def select_pos(self, unit_vector, index, padded_board, stone_color):
+    def _select_pos(self, unit_vector, index, padded_board, stone_color):
         '''
 
         :Args
-            d1():
-            d0:
-            i:
-            board:
-            stone_color:
+            unit_vector(list):
+                shape = (2,1)
+
+            index(int):
+                shape = ()
+                instruction: index of the empty place in one dimension array which length is 64.
+
+            padded_board(list):
+                shape = (10,10)
+                instruction: padded Reversi board
+
+            stone_color(int):
+                stone's color
+                white -> 1
+                black -> -1
+
         :Return:
         '''
         # counter counts the number of reversible stone
         counter = 1
-        index_status = padded_board[self.get_index_in_padded_board(index) + 2 * unit_vector[0]][self.get_index_in_padded_board(index) + 2 * unit_vector[1]]
+        index_status = \
+            padded_board[self._get_index_in_padded_board(index) + 2 * unit_vector[0]][self._get_index_in_padded_board(index) + 2 * unit_vector[1]]
         if index_status == stone_color:
             return True, counter
         elif index_status == -1 * stone_color:
             base_vector = 3 * unit_vector
-            return self.select_pos_loop(base_vector, unit_vector, index, padded_board, stone_color,counter)
+            return self._select_pos_loop(base_vector, unit_vector, index, padded_board, stone_color,counter)
         else:
             return False, 0
 
 
-    def get_stone_put_able_pos_set(self, stone_color):
+    def get_stone_puttable_pos(self, stone_color):
         '''
 
-            Initialize class parameters.
+        This function get stone putable position from player's stone_color
 
         Args:
             stone_color(int):
@@ -142,33 +154,34 @@ class ReversiPackages(object):
                               brack -> -1
 
         Returns:
-            pos_set(set):
+            pos(list):
+                shape = (the number of stone putable position)
                 instructions:
-                    get stone put able position set
+                    get stone putable position list
 
         '''
-        board_8x8 = np.array(self.__board).reshape(8,8)
-        vertical_edge_pad = np.full((1, 8), self.__options['ERROR'])
-        horizontal_edge_pad = np.full((10, 1), self.__options['ERROR'])
+        board_8x8 = np.array(self.__board).reshape(self.__options['SIDES_NUM'],self.__options['SIDES_NUM'])
+        vertical_edge_pad = np.full((1, self.__options['SIDES_NUM']), self.__options['ERROR'])
+        horizontal_edge_pad = np.full((self.__options['SIDES_NUM'] + 2, 1), self.__options['ERROR'])
         vertical_padded_board = np.vstack((vertical_edge_pad, board_8x8, vertical_edge_pad))
         padded_board = np.hstack((horizontal_edge_pad, vertical_padded_board, horizontal_edge_pad))
         empty_pos_index_list = []
-        for index in range(64):
-            if self.board[index] == self.__options['EMPTY']:
+        for index in range(self.__options['SQUARE_NUM']):
+            if self.__board[index] == self.__options['EMPTY']:
                 empty_pos_index_list.append(index)
 
-        pos = {}
+        pos = set()
         for empty_pos_index in empty_pos_index_list:
-            reversible_stone_number_list = [0, 0, 0, 0, 0, 0, 0, 0]
-            if padded_board[self.get_index_in_padded_board(empty_pos_index)[0]-1][self.get_index_in_padded_board(empty_pos_index)[1]] == -1 * stone_color:
-                put_able, counter = self.select_pos([-1, 0],  empty_pos_index, padded_board, stone_color)
-                if put_able:
-                    reversible_stone_number_list[0] = counter
-                    pos.append(empty_pos_index)
-
-            self.dd_dict[empty_pos_index] = reversible_stone_number_list
-
-        return pos
+            reversible_stone_number_list = self.__options['INITIAL_REVERSIBLE_STONE_NUMBER_LIST']
+            for vector in self.__options['ALL_VECTOR']:
+                if padded_board[self._get_index_in_padded_board(empty_pos_index)[0]+vector[0]][self._get_index_in_padded_board(empty_pos_index)[1]+vector[1]] \
+                        == self.__options['CHANGE_COLOR'] * stone_color:
+                    put_able, counter = self._select_pos(vector,  empty_pos_index, padded_board, stone_color)
+                    if put_able:
+                        reversible_stone_number_list[0] = counter
+                        pos.add(empty_pos_index)
+            self.__reversable_stone_number_dict[empty_pos_index] = reversible_stone_number_list
+        return list(pos)
 
 
     def check_winner(self):
@@ -184,15 +197,15 @@ class ReversiPackages(object):
 
         # if winner is white, sum_score > 0
         if sum_score > 0:
-            self.__winner = options['WHITE']
+            self.__winner = self.__options['WHITE']
 
         # if winner is black, sum_score < 0
         elif sum_score < 0:
-            self.__winner = options['BLACK']
+            self.__winner = self.__options['BLACK']
 
         # if draw, sum_score = 0
         else:
-            self.__winner = options['DRAW']
+            self.__winner = self.__options['DRAW']
 
 
     def reversing_stones(self, putting_index, stone_color):
