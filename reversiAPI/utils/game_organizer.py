@@ -227,7 +227,7 @@ class ReversiOrgnaizer:
                         out = self.player_turn.name + "の勝ちやで〜〜よーやったなあ！"
                         if self.show_result:
                             print(out)
-                    # self.player_turn.getGameResult(self.board)
+                    # self.__whose_turn.getGameResult(self.board)
 
             self.nwon[self.board.winner] += 1
             self.nplayed += 1

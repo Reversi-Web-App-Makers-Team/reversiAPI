@@ -89,7 +89,7 @@ class ReversiProcessor(object):
         self.__win_num_cnt = {
             player_white_class.stone_color: 0,
             player_black_class.stone_color: 0,
-            draw: 0
+            'draw': 0
         }
 
         # players' list
@@ -113,25 +113,25 @@ class ReversiProcessor(object):
 
             while self.board.winner == None:
                 if self.disp:
-                    print(self.player_turn.name + "の番やで〜")
-                    p_pos = self.board.get_possible_pos(self.player_turn.myturn)
+                    print(self.__whose_turn.name + "の番やで〜")
+                    p_pos = self.board.get_possible_pos(self.__whose_turn.myturn)
                     plus_1 = [1 for i in range(len(p_pos))]
                     print(str(np.array(p_pos) + np.array(plus_1)) + "に置けるで")
-                act = self.player_turn.act(self.board)
+                act = self.__whose_turn.act(self.board)
 
     # TODO -> iyori: implement here.
     def switch_player(self):
-        if self.player_turn == self.__player_white:
-            if not self.board.get_possible_pos(self.__options['BLACK']):
-                self.player_turn = self.player_b
-            elif self.board.get_possible_pos(self.__options['BLACK']):
-                self.player_turn = self.player_w
-                if self.board.get_possible_pos(self.__options['WHITE']):
-                    self.board.check_winner()
+        if self.__whose_turn == self.__player_white:
+            if not self.__board.get_possible_pos(self.__options['BLACK']):
+                self.__whose_turn = self.__player_black
+            elif self.__board.get_possible_pos(self.__options['BLACK']):
+                self.__whose_turn = self.__player_white
+                if self.__board.get_possible_pos(self.__options['WHITE']):
+                    self.__board.check_winner()
         else:
-            if not self.board.get_possible_pos(self.__options['WHITE']):
-                self.player_turn = self.player_w
-            elif self.board.get_possible_pos(self.__options['WHITE']):
-                self.player_turn = self.player_b
-                if self.board.get_possible_pos(self.__options['BLACK']):
-                    self.board.check_winner()
+            if not self.__board.get_possible_pos(self.__options['WHITE']):
+                self.__whose_turn = self.__player_white
+            elif self.__board.get_possible_pos(self.__options['WHITE']):
+                self.__whose_turn = self.__player_black
+                if self.__board.get_possible_pos(self.__options['BLACK']):
+                    self.__board.check_winner()
