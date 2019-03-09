@@ -43,11 +43,13 @@ class ReversiPackages(object):
             for index in range(self.__options['SQUARE_NUM']):
                 self.__board.append(self.__options['EMPTY'])
                 
-            # set initial 4 stones.
-            self.__board[27] = self.__options['WHITE']
-            self.__board[28] = self.__options['BRACK']
-            self.__board[35] = self.__options['BRACK']
-            self.__board[36] = self.__options['WHITE']
+            # set initial 2 white stones.
+            for initial_white_place in self.__options['INITIAL_WHITE_PLACES']:
+                self.__board[initial_white_place] = self.__options['WHITE']
+
+            # set initial 2 black stones.
+            for initial_black_place in self.__options['INITIAL_BLACK_PLACES']:
+                self.__board[initial_black_place] = self.__options['BLACK']
             
         else:
             self.__board = board
@@ -118,35 +120,35 @@ class ReversiPackages(object):
         # reversing stone for all 8 directions adapting to self.__reversable_stone_number_dict
         for i in range(self.__reversable_stone_number_dict[putting_index][0]):
             i += 1
-            self.__board[putting_index - 8 * i] *= -1
+            self.__board[putting_index - 8 * i] *= self.__options['CHANGE_COLOR']
 
         for i in range(self.__reversable_stone_number_dict[putting_index][1]):
             i += 1
-            self.__board[putting_index - 7 * i] *= -1
+            self.__board[putting_index - 7 * i] *= self.__options['CHANGE_COLOR']
 
         for i in range(self.__reversable_stone_number_dict[putting_index][2]):
             i += 1
-            self.__board[putting_index + i] *= -1
+            self.__board[putting_index + i] *= self.__options['CHANGE_COLOR']
 
         for i in range(self.__reversable_stone_number_dict[putting_index][3]):
             i += 1
-            self.__board[putting_index + 9 * i] *= -1
+            self.__board[putting_index + 9 * i] *= self.__options['CHANGE_COLOR']
 
         for i in range(self.__reversable_stone_number_dict[putting_index][4]):
             i += 1
-            self.__board[putting_index + 8 * i] *= -1
+            self.__board[putting_index + 8 * i] *= self.__options['CHANGE_COLOR']
 
         for i in range(self.__reversable_stone_number_dict[putting_index][5]):
             i += 1
-            self.__board[putting_index + 7 * i] *= -1
+            self.__board[putting_index + 7 * i] *= self.__options['CHANGE_COLOR']
 
         for i in range(self.__reversable_stone_number_dict[putting_index][6]):
             i += 1
-            self.__board[putting_index - i] *= -1
+            self.__board[putting_index - i] *= self.__options['CHANGE_COLOR']
 
         for i in range(self.__reversable_stone_number_dict[putting_index][7]):
             i += 1
-            self.__board[putting_index - 9 * i] *= -1
+            self.__board[putting_index - 9 * i] *= self.__options['CHANGE_COLOR']
 
     
     def print_board(self):
