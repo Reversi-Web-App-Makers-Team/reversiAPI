@@ -8,18 +8,23 @@ class ReversiPackages(object):
     This class is packages used in organizing reversi game
     '''
     
-    def __init__(self, board=None, options=None):
+    def __init__(self, board=None, options=None, printing=True):
         
         '''
         Initialize class parameters.
         
         Args:
+            printing(boolean):
+                False -> not printing board.
+                True -> printing board.
+
             board(list):
                 shape = (total_square_num=64, 1)
                 instructions: board state.
                               empty(no stone) -> 0
                               white stone -> 1
                               brack stone -> -1
+
             options(toml):
                 global parameters.
         '''
@@ -55,8 +60,19 @@ class ReversiPackages(object):
         #   values: list of how many stones reversed when putting stone there for all 8 directions
         self.__reversed_stone_number_dict = {}
 
+        # make class variables for printing board.
+        if printing:
 
-    def _check_winner(self):
+            # converter dictinary (1, -1, 0 -> "⚪️", " ⚫️", "None")
+            self.__marks = toml.load('./settings.toml')['MARKS']
+
+            # number board (1 ~ 64) for displaying
+            self.__index_board_for_print = []
+            for index in range(self.__options['SQUARE_NUM']):
+                self.__index_board_for_print.append(index + 1)
+
+
+    def check_winner(self):
 
         '''
         This function check which player wins (black stone player of white stone player) or draw.
@@ -80,7 +96,7 @@ class ReversiPackages(object):
             self.__winner = options['DRAW']
 
 
-    def _reversing_stones(self, putting_index, stone_color):
+    def reversing_stones(self, putting_index, stone_color):
 
         '''
         This function reversing stones adapted to putting place.
@@ -89,6 +105,7 @@ class ReversiPackages(object):
         Args:
             putting_index(int):
                 index where putting new stone
+
             stone_color(int):
                 stone's color
                 white -> 1
@@ -130,4 +147,24 @@ class ReversiPackages(object):
         for i in range(self.__reversed_stone_number_dict[putting_index][7]):
             i += 1
             self.__board[putting_index - 9 * i] *= -1
+
+    
+    def print_board(self):
+        temp_board = []
+
+        # convert (1, -1, 0) -> ("⚪️", " ⚫️", "None")
+        for i in self.board:
+            temp_board.append(marks[i])
+
+        # convert "None" -> index (1 ~ 64)
+        for i in range(self.__options['SQUARE_NUM']):
+            if temp_board[i] == " ":
+                temp_board[i] = "%02d" % self.index_board[i]
+
+        # lines
+        row = " {} | {} | {} | {} | {} | {} | {} | {} "
+        hr = "\n---------------------------------------\n"
+
+        # printing board
+        print((row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(*temp_board))
 
