@@ -24,3 +24,5 @@
   EMPTY=" "
   WHITE="⚪️"
   BLACK="⚫️"
+
+[REVERSI_PROCESSOR]
