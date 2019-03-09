@@ -81,10 +81,13 @@ class ReversiProcessor(object):
         # stat TODO-> teramoto: implement here
         self.__stat = stat
 
+        # board info (size==64)
+        self.__board = None
+
         # win number counter (dictionary)
         self.__win_num_cnt = {
-                player_white_class.myturn: 0,
-                player_black_class.myturn: 0,
+                player_white_class.stone_color: 0,
+                player_black_class.stone_color: 0,
                 draw: 0
                 }
 
