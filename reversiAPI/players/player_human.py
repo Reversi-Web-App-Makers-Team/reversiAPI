@@ -1,3 +1,5 @@
+import sys
+
 class PlayerHuman:
     def __init__(self, name, stone_color):
         self.name = name
@@ -8,13 +10,16 @@ class PlayerHuman:
         is_invalid_putting = True
         while is_invalid_putting:
             try:
-                print("どこ置きまっか？:", end=' ')
+                sys.stdout.write("\rどこ置きまっか？")
                 stone_putting_place = int(input())
-                print(stone_putting_place)
+                sys.stdout.write("\r" + stone_putting_place)
+                sys.stdout.flush()
                 if stone_putting_place - 1 in reversi_packages.stone_putable_pos(self.stone_color):
                     is_invalid_putting = False
                     return stone_putting_place - 1
                 else:
-                    print("そこおけへんで〜〜")
+                    sys.stdout.write("\rそこおけへんで〜〜")
+                    sys.stdout.flush()
             except Exception as e:
-                print("アホちゃう?")
+                sys.stdout.write("\rアホちゃう?")
+                sys.stdout.flush()
