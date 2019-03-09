@@ -16,10 +16,10 @@ class ReversiProcessor(object):
             self,
             player_white_class,
             player_black_class,
-            options = None,
-            play_game_num = 1,
-            display_board = True,
-            display_result = True,
+            options=None,
+            play_game_num=1,
+            display_board=True,
+            display_result=True,
     ):
 
         '''
@@ -102,13 +102,17 @@ class ReversiProcessor(object):
 
 
     def progress(self):
+        '''
+        Progress reversi game
+        '''
         while self.__finished_game_num < self.__play_game_num:
             self.__reversi_packages = ReversiPackages(
-                    board = None,
-                    options = None,
-                    display_board = self.__display_board)
+                board=None,
+                options=None,
+                display_board=self.__display_board)
             self.__reversi_packages.display_board()
 
+            # while the winner is defined, progress the game
             while self.__reversi_packages.check_winner() == None:
                 if self.__display_board:
                     sys.stdout.write("\r" + self.__whose_turn.name + "の番やで〜")
@@ -139,6 +143,9 @@ class ReversiProcessor(object):
 
 
     def switch_player(self):
+        '''
+        swich player in reversi game
+        '''
         if self.__whose_turn == self.__player_white:
             if not self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
                 self.__whose_turn = self.__player_black
