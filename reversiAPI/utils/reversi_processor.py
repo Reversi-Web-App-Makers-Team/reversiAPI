@@ -1,9 +1,8 @@
 import random
-
 import toml
 import numpy as np
-
 from reversiAPI.utils.reversi_packages import ReversiPackages
+
 
 
 class ReversiProcessor(object):
