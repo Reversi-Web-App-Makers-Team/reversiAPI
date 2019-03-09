@@ -26,7 +26,7 @@ class ReversiProcessor(object):
         Args:
             player_white_class(Class), player_black_class(Class):
                 instruction: each color (black or white) player's class.
-                             player class must two class variables and one method.
+                             player class must have two class variables and one method.
                                 class variables:
                                     self.name(str):
                                         player's name
