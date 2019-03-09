@@ -3,6 +3,8 @@ import randam
 import toml
 import numpy as np
 
+from reversi_packages import ReversiPackages
+
 
 class ReversiProcessor(object):
     
@@ -11,4 +13,4 @@ class ReversiProcessor(object):
     '''
 
     def __init__(self):
-
+        
