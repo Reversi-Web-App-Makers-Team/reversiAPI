@@ -3,7 +3,7 @@ import randam
 import toml
 import numpy as np
 
-from reversi_packages import ReversiPackages
+from Reversi-API.reversi_packages import ReversiPackages
 
 
 class ReversiProcessor(object):
