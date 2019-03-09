@@ -1,8 +1,6 @@
 import random
-
 import toml
 import numpy as np
-
 from reversi_packages import ReversiPackages
 
 
