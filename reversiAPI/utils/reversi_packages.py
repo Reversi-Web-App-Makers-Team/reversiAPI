@@ -253,13 +253,13 @@ class ReversiPackages(object):
                     is_reversible, counter = \
                         self._get_reversible_stone_num(vector, empty_pos_index, padded_board, stone_color)
 
-                    # if there is reversible stones, save the vector and the number of stones in
+                    # if there is reversible stones, save the vector and the number of stones in\
                     # reversible_stone_number_list and save the index in putable_pos_set
                     if is_reversible:
                         reversible_stone_number_list[index] = counter
                         putable_pos_set.add(empty_pos_index)
 
-            # save the empty_pos_index and reversible_stone_number_list in reversible_stone_number_dict to use in
+            # save the empty_pos_index and reversible_stone_number_list in reversible_stone_number_dict to use in\
             # reversing_stones function
             self.__reversible_stone_number_dict[empty_pos_index] = reversible_stone_number_list
 
