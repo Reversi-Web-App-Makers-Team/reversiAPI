@@ -80,12 +80,13 @@ class ReversiPackages(object):
         Returns:
 
         '''
-        return index_in_1d_board // 8 + 1, index_in_1d_board % 8 + 1
+        return index_in_1d_board // self.__options['SIDES_NUM'] + 1, index_in_1d_board % self.__options['SIDES_NUM'] + 1
 
     def _get_reversible_stone_num_loop(self, base_vector, unit_vector, index, padded_board, stone_color, counter):
         '''
          this function get the if the stone is reversible in the index and vector,
          and also get the number of reversible stone
+
         Args:
             base_vector(list):
                 shape = (2,1)
@@ -148,6 +149,7 @@ class ReversiPackages(object):
         '''
         this function get the if the stone is reversible in the index and vector,
          and also get the number of reversible stone
+
         Args:
             unit_vector(list):
                 shape = (2,1)
@@ -260,7 +262,7 @@ class ReversiPackages(object):
             # save the empty_pos_index and reversible_stone_number_list in reversible_stone_number_dict to use in
             # reversing_stones function
             self.__reversible_stone_number_dict[empty_pos_index] = reversible_stone_number_list
-            
+
         return list(putable_pos_set)
 
     def check_winner(self):
