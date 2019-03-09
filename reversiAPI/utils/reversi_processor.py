@@ -15,11 +15,10 @@ class ReversiProcessor(object):
             self,
             player_white_class,
             player_black_class,
-            options=None,
-            play_game_num=1,
-            display_board=True,
-            display_result=True,
-            stat=1000000
+            options = None,
+            play_game_num = 1,
+            display_board = True,
+            display_result = True,
     ):
 
         '''
@@ -56,9 +55,6 @@ class ReversiProcessor(object):
             display_result(boolean):
                 True -> displaying result of game when finished
                 Flase -> not displaying result of game
-
-            stat(int):
-                TODO -> teramoto: implement here.
         '''
 
         # player class
@@ -79,17 +75,14 @@ class ReversiProcessor(object):
         self.__display_board = display_board
         self.__display_result = display_result
 
-        # stat TODO-> teramoto: implement here
-        self.__stat = stat
-
-        # board info (size==64)
-        self.__board = None
+        # class ReversiPackages
+        self.__reversi_packages = None
 
         # win number counter (dictionary)
         self.__win_num_cnt = {
             player_white_class.stone_color: 0,
             player_black_class.stone_color: 0,
-            draw: 0
+            self.__options['DRAW']: 0
         }
 
         # players' list
@@ -108,8 +101,11 @@ class ReversiProcessor(object):
 
     def progress(self):
         while self.__finished_game_num < self.__play_game_num:
-            self.__board = ReversiPackages()
-            self.__board.display_board()
+            self.__reversi_packages = ReversiPackages(
+                    board = None,
+                    options = None,
+                    display_board = self.__display_board)
+            self.__reversi_packages.display_board()
 
             while self.board.winner == None:
                 if self.disp:
