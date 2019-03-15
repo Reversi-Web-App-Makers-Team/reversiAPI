@@ -2,8 +2,16 @@ import sys
 
 class PlayerHuman:
     def __init__(self, name, stone_color):
-        self.name = name
-        self.stone_color = stone_color
+        self.__name = name
+        self.__stone_color = stone_color
+        
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def stone_color(self):
+        return self.__stone_color
 
     @classmethod
     def put_stone(self, reversi_packages):
