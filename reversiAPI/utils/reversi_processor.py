@@ -4,7 +4,8 @@ import random
 import numpy as np
 import toml
 
-from reversiAPI.utils.reversi_packages import ReversiPackages
+# from reversiAPI.utils.reversi_packages import ReversiPackages
+from .reversi_packages import ReversiPackages
 
 
 class ReversiProcessor(object):
@@ -65,7 +66,8 @@ class ReversiProcessor(object):
 
         # global variables
         if options == None:
-            self.__options = toml.load('reversiAPI/utils/settings.toml')['REVERSI_PROCESSOR']
+            # self.__options = toml.load('reversiAPI/utils/settings.toml')['REVERSI_PROCESSOR']
+            self.__options = toml.load('./utils/settings.toml')['REVERSI_PROCESSOR']
         else:
             self.__options = options
 
@@ -107,24 +109,23 @@ class ReversiProcessor(object):
         """
         while self.__finished_game_num < self.__play_game_num:
             self.__reversi_packages = ReversiPackages(
-
                 board=None,
                 options=None,
-                display_board=self.__display_board)
+                display_board=self.__display_board
+                )
+
             self.__reversi_packages.display_board()
 
-            # while the winner is defined, progress the game
+            # while the winner is not defined, progress the game
             while self.__reversi_packages.check_winner() == None:
                 if self.__display_board:
 
-                    sys.stdout.write("\r" + self.__whose_turn.name + "の番やで〜")
-                    sys.stdout.flush()
-                    p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.myturn)
+                    print(self.__whose_turn.name, "の番やで〜")
+                    p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.stone_color)
                     plus_1 = [1 for i in range(len(p_pos))]
-                    sys.stdout.write("\r" + str(np.array(p_pos) + np.array(plus_1)) + "に置けるで")
-                    sys.stdout.flush()
-                act = self.__whose_turn.act(self.__reversi_packages)
-                self.__reversi_packages.reversing_stones(act, self.__whose_turn.myturn)
+                    print(str(np.array(p_pos) + np.array(plus_1)), "に置けるで")
+                act = self.__whose_turn.put_stone(self.__reversi_packages)
+                self.__reversi_packages.reversing_stones(act, self.__whose_turn.stone_color)
 
                 if self.__display_board:
                     self.__reversi_packages.display_board()
@@ -135,7 +136,7 @@ class ReversiProcessor(object):
                     if self.__reversi_packages.check_winner() == self.__options['DRAW']:
                         if self.__display_result:
                             print("おあいこやないかい!")
-                    elif self.__reversi_packages.check_winner() == self.__whose_turn.myturn:
+                    elif self.__reversi_packages.check_winner() == self.__whose_turn.stone_color:
                         out = self.__whose_turn.name + "の勝ちやで〜〜よーやったなあ！"
                         if self.__display_result:
                             print(out)

@@ -32,7 +32,8 @@ class ReversiPackages(object):
 
         # self.__options is global parameters
         if options == None:
-            self.__options = toml.load('./reversiAPI/utils/settings.toml')['REVERSI_PACKAGES']
+            # self.__options = toml.load('./reversiAPI/utils/settings.toml')['REVERSI_PACKAGES']
+            self.__options = toml.load('./utils/settings.toml')['REVERSI_PACKAGES']
         else:
             self.__options = options
 
@@ -56,7 +57,7 @@ class ReversiPackages(object):
             self.__board = board
 
         # self.__winner flag is used when checking winner
-        self.__winner == None
+        self.__winner = None
 
         # self.__reversible_stone_number_dict: dictionary
         #   keys: empty(no stone) index in game board
@@ -68,7 +69,8 @@ class ReversiPackages(object):
         if self.__display_board:
 
             # converter dictinary (1, -1, 0 -> "⚪️", " ⚫️", "None")
-            self.__marks = toml.load('./reversiAPI/utils/settings.toml')['MARKS']
+            # self.__marks = toml.load('./reversiAPI/utils/settings.toml')['MARKS']
+            self.__marks = toml.load('./utils/settings.toml')['MARKS']
 
             # number board (1 ~ 64) for displaying
             self.__index_board_for_displaying = []
@@ -330,7 +332,7 @@ class ReversiPackages(object):
 
             # convert (1, -1, 0) -> ("⚪️", " ⚫️", "None")
             for i in self.__board:
-                temp_board.append(self.__marks[i])
+                temp_board.append(self.__marks[str(i)])
 
             # convert "None" -> index (1 ~ 64)
             for i in range(self.__options['SQUARE_NUM']):
