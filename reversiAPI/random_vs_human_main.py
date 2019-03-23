@@ -11,7 +11,7 @@ def _random_vs_human(white, black):
         player_white_instance=player_white_instance,
         player_black_instance=player_black_instance,
         options=None,
-        play_game_num=5,
+        play_game_num=1,
         display_board=True,
         display_result=True
     )
