@@ -125,7 +125,7 @@ class ReversiProcessor(object):
                     p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.stone_color)
                     plus_1 = [1 for i in range(len(p_pos))]
                     print(str(np.array(p_pos) + np.array(plus_1)), "に置けるで")
-                act = self.__whose_turn.put_stone(self.__reversi_packages.board)
+                act = self.__whose_turn.put_stone(self.__reversi_packages)
                 self.__reversi_packages.reversing_stones(act, self.__whose_turn.stone_color)
 
                 if self.__display_board:

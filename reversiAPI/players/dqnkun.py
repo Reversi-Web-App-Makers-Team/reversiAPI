@@ -1,6 +1,5 @@
 import torch
 
-from reversiAPI.utils.reversi_packages import ReversiPackages
 
 def load_model(file_path):
     model = TheModelClass(*args, **kwargs)
@@ -14,14 +13,16 @@ class PlayerDqn(object):
         self.model = load_model(file_path)
         self.reversi_packages = ReversiPackages()
 
-    def put_stone(self, board):
+    def put_stone(self, reversi_packages):
         with torch.no_grad():
-            input_array = np.append(np.array(self.stone_color), np.array(board))
+            input_array = np.append(
+                    np.array(self.stone_color), np.array(reversi_packages.board)
+                    )
             input_data = torch.from_numpy(input_array).type(torch.FloatTensor)
             input_data_unsqueezed = torch.unsqueeze(input_data, 0)
             probability = np.array(self.model(input_data_unsqueezed)).reshape(-1)
 
-        puttable_index = self.reversi_packages.get_stone_putable_pos(self.stone_color)
+        puttable_index = reversi_packages.get_stone_putable_pos(self.stone_color)
         filtered_probability = np.zeros(64)
         for index in puttable_index:
             filtered_probability[index] = probability[index]
