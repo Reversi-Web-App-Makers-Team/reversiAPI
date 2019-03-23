@@ -20,3 +20,9 @@ MARKS = {
     '1': "⚪️",
     '-1': "⚫️"
 }
+
+REVERSI_PROCESSOR = {
+    'DRAW': 2,
+    'WHITE': 1,
+    'BLACK': -1
+}
