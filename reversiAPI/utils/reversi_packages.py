@@ -267,6 +267,8 @@ class ReversiPackages(object):
             # save the empty_pos_index and reversible_stone_number_list in reversible_stone_number_dict to use in\
             # reversing_stones function
             self.__reversible_stone_number_dict[empty_pos_index] = reversible_stone_number_list
+            
+        self.board = board
 
         return list(putable_pos_set)
 
