@@ -1,7 +1,7 @@
 import random
 
 import numpy as np
-import toml
+import settings
 
 from reversiAPI.utils.reversi_packages import ReversiPackages
 
@@ -43,7 +43,7 @@ class ReversiProcessor(object):
                                                 shape = (64, 1)
                                                 instruction: game board information
 
-            options(toml):
+            options(dict):
                 global variables
 
             play_game_num(int):
@@ -65,7 +65,7 @@ class ReversiProcessor(object):
 
         # global variables
         if options == None:
-            self.__options = toml.load('reversiAPI/utils/settings.toml')['REVERSI_PROCESSOR']
+            self.__options = settings['REVERSI_PROCESSOR']
         else:
             self.__options = options
 
