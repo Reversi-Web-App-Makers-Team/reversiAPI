@@ -12,7 +12,6 @@ class ReversiPackages(object):
     '''
 
     def __init__(self, board=None, options=None, display_board=True):
-
         '''
         Initialize class parameters.
         
@@ -204,7 +203,6 @@ class ReversiPackages(object):
         return is_reversible, counter
 
     def get_stone_putable_pos(self, stone_color):
-
         '''
         This function get stone putable position from player's stone_color
 
@@ -223,8 +221,11 @@ class ReversiPackages(object):
 
         '''
 
+        if board == None:
+            board = self.board
+
         # change the shape of board list to 2 dimension numpy array
-        board_8x8 = np.array(self.board).reshape(self.__options['SIDES_NUM'], self.__options['SIDES_NUM'])
+        board_8x8 = np.array(board).reshape(self.__options['SIDES_NUM'], self.__options['SIDES_NUM'])
 
         # Pad the edges
         vertical_edge_pad = np.full((1, self.__options['SIDES_NUM']), self.__options['EDGE_PAD'])
@@ -266,6 +267,8 @@ class ReversiPackages(object):
             # save the empty_pos_index and reversible_stone_number_list in reversible_stone_number_dict to use in\
             # reversing_stones function
             self.__reversible_stone_number_dict[empty_pos_index] = reversible_stone_number_list
+            
+        self.board = board
 
         return list(putable_pos_set)
 
@@ -327,6 +330,14 @@ class ReversiPackages(object):
         for index in putable_pos_list:
             board[index] = 2
         return board
+
+    def get_board_status(self, stone_color):
+        putable_pos_list = self.get_stone_putable_pos(stone_color)
+        board = copy.deepcopy(self.__board)
+        for index in putable_pos_list:
+            board[index] = 2
+        return board
+
 
     def display_board(self):
         if self.__display_board:
