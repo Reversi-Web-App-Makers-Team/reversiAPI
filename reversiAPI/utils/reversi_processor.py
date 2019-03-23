@@ -1,4 +1,3 @@
-import sys
 import random
 
 import numpy as np
@@ -15,18 +14,19 @@ class ReversiProcessor(object):
 
     def __init__(
             self,
-            player_white_class,
-            player_black_class,
+            player_white_instance,
+            player_black_instance,
             options=None,
             play_game_num=1,
             display_board=True,
             display_result=True,
+
     ):
 
         '''
         initialize function
         Args:
-            player_white_class(Class), player_black_class(Class):
+            player_white_instance(Class), player_black_instance(Class):
                 instruction: each color (black or white) player's class.
                              player class must have two class variables and one method.
                                 class variables:
@@ -61,8 +61,8 @@ class ReversiProcessor(object):
 
         # player class
 
-        self.__player_white = player_white_class
-        self.__player_black = player_black_class
+        self.__player_white = player_white_instance
+        self.__player_black = player_black_instance
 
         # global variables
         if options == None:
@@ -70,6 +70,8 @@ class ReversiProcessor(object):
             self.__options = toml.load('./utils/settings.toml')['REVERSI_PROCESSOR']
         else:
             self.__options = options
+
+        self.__winner = None
 
         # how many times playing game
         self.__play_game_num = play_game_num
@@ -83,8 +85,8 @@ class ReversiProcessor(object):
 
         # win number counter (dictionary)
         self.__win_num_cnt = {
-            player_white_class.stone_color: 0,
-            player_black_class.stone_color: 0,
+            player_white_instance.stone_color: 0,
+            player_black_instance.stone_color: 0,
             self.__options['DRAW']: 0
         }
 
@@ -108,19 +110,20 @@ class ReversiProcessor(object):
         Progress reversi game
         """
         while self.__finished_game_num < self.__play_game_num:
+            self.__winner = None
             self.__reversi_packages = ReversiPackages(
                 board=None,
                 options=None,
                 display_board=self.__display_board
-                )
+            )
 
             self.__reversi_packages.display_board()
 
-            # while the winner is not defined, progress the game
-            while self.__reversi_packages.check_winner() == None:
+            # while the __winner is not defined, progress the game
+            while self.__winner == None:
                 if self.__display_board:
+                    # print(self.__whose_turn.name, "の番やで〜")
 
-                    print(self.__whose_turn.name, "の番やで〜")
                     p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.stone_color)
                     plus_1 = [1 for i in range(len(p_pos))]
                     print(str(np.array(p_pos) + np.array(plus_1)), "に置けるで")
@@ -130,19 +133,16 @@ class ReversiProcessor(object):
                 if self.__display_board:
                     self.__reversi_packages.display_board()
                 self.switch_player()
-                if self.__reversi_packages.check_winner() != None:
-                    # for i in self.players:
-                    #     i.getGameResult(self.board)
-                    if self.__reversi_packages.check_winner() == self.__options['DRAW']:
+                if self.__winner != None:
+                    if self.__winner == self.__options['DRAW']:
                         if self.__display_result:
                             print("おあいこやないかい!")
-                    elif self.__reversi_packages.check_winner() == self.__whose_turn.stone_color:
-                        out = self.__whose_turn.name + "の勝ちやで〜〜よーやったなあ！"
-                        if self.__display_result:
-                            print(out)
-                    # self.__whose_turn.getGameResult(self.board)
+                    # elif self.__winner == self.__whose_turn.stone_color:
+                    #     out = self.__whose_turn.name + "の勝ちやで〜〜よーやったなあ！"
+                    # if self.__display_result:
+                    # print(out)
 
-            self.__win_num_cnt[self.__reversi_packages.check_winner()] += 1
+            self.__win_num_cnt[self.__winner] += 1
             self.__finished_game_num += 1
 
 
@@ -152,16 +152,16 @@ class ReversiProcessor(object):
         """
         # if it is white player's turn, decide next player by get_stone_putable_pos
         if self.__whose_turn == self.__player_white:
-            if not self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
+            if self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
                 self.__whose_turn = self.__player_black
-            elif self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
+            elif not self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
+                self.__winner = self.__reversi_packages.check_winner()
+            else:
                 self.__whose_turn = self.__player_white
-                if self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
-                    self.__reversi_packages.check_winner()
         else:
-            if not self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
+            if self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
                 self.__whose_turn = self.__player_white
-            elif self.__reversi_packages.get_stone_putable_pos(self.__options['WHITE']):
+            elif not self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
+                self.__winner = self.__reversi_packages.check_winner()
+            else:
                 self.__whose_turn = self.__player_black
-                if self.__reversi_packages.get_stone_putable_pos(self.__options['BLACK']):
-                    self.__reversi_packages.check_winner()

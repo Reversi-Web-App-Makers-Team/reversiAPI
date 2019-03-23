@@ -1,7 +1,7 @@
-import sys
+import copy
 
-import toml
 import numpy as np
+import toml
 
 
 class ReversiPackages(object):
@@ -139,7 +139,7 @@ class ReversiPackages(object):
             base_vector[0] += unit_vector[0]
             base_vector[1] += unit_vector[1]
             is_reversible, counter = \
-                self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board, stone_color)
+                self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board, stone_color, counter)
 
         # if status is same as the stone_color, return True and counter
         elif status == stone_color:
@@ -186,14 +186,14 @@ class ReversiPackages(object):
         counter = 1
 
         # status is the status in focused place of this function
-        status = padded_board[self._get_index_in_padded_board(index) + 2 *
-                              unit_vector[0]][self._get_index_in_padded_board(index) + 2 * unit_vector[1]]
+        status = padded_board[self._get_index_in_padded_board(index)[0] + 2 *
+                              unit_vector[0]][self._get_index_in_padded_board(index)[1] + 2 * unit_vector[1]]
 
         # if status is different to the stone_color, use _get_reversible_stone_num_loop to conclude the count
         if status == self.__options['CHANGE_COLOR'] * stone_color:
             base_vector = [0, 0]
             base_vector[0] = 3 * unit_vector[0]
-            base_vector[1] = 3 * unit_vector[3]
+            base_vector[1] = 3 * unit_vector[1]
             is_reversible, counter = \
                 self._get_reversible_stone_num_loop(base_vector, unit_vector, index, padded_board, stone_color, counter)
         # if status is same as the stone_color, return True and counter
@@ -246,11 +246,11 @@ class ReversiPackages(object):
 
         # for every empty place, validate if the stone is putable
         for empty_pos_index in empty_pos_index_list:
-            reversible_stone_number_list = self.__options['INITIAL_REVERSIBLE_STONE_NUMBER_LIST']
+            reversible_stone_number_list = copy.deepcopy(self.__options['INITIAL_REVERSIBLE_STONE_NUMBER_LIST'])
 
             # for every direction from the index, validate if there is the reversible stone
             for index in range(self.__options['VECTOR_NUM']):
-                vector = self.__options['ALL_VECTOR'][index]
+                vector = self.__options['ALL_VECTORS'][index]
 
                 # if the place next to index place have the stone which color is different from the player stone color,
                 if padded_board[self._get_index_in_padded_board(empty_pos_index)[0] +
@@ -278,24 +278,26 @@ class ReversiPackages(object):
 
         '''
         This function check which player wins (black stone player of white stone player) or draw.
-            if winner is white, self.__winner <- 1
-            if winner is brack, self.__winner <- -1
+            if __winner is white, self.__winner <- 1
+            if __winner is brack, self.__winner <- -1
             if draw, self.__winner <- 2
         '''
 
         sum_score = sum(self.__board)
 
-        # if winner is white, sum_score > 0
+        # if __winner is white, sum_score > 0
         if sum_score > 0:
             self.__winner = self.__options['WHITE']
 
-        # if winner is black, sum_score < 0
+        # if __winner is black, sum_score < 0
         elif sum_score < 0:
             self.__winner = self.__options['BLACK']
 
         # if draw, sum_score = 0
         else:
             self.__winner = self.__options['DRAW']
+
+        return self.__winner
 
 
     def reversing_stones(self, putting_index, stone_color):
@@ -322,7 +324,7 @@ class ReversiPackages(object):
             vector = self.__options['ALL_VECTORS'][index]
             for i in range(self.__reversible_stone_number_dict[putting_index][index]):
                 i += 1
-                self.__board[putting_index - (self.__options['SIDES_NUM'] * vector[0] + vector[1]) * i] *= \
+                self.__board[putting_index + (self.__options['SIDES_NUM'] * vector[0] + vector[1]) * i] *= \
                     self.__options['CHANGE_COLOR']
 
 
@@ -344,9 +346,8 @@ class ReversiPackages(object):
             hr = "\n---------------------------------------\n"
 
             # printing board
-            sys.stdout.write(
+            print(
                 ("\r" + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(*temp_board))
-            sys.stdout.flush()
 
         else:
             return
