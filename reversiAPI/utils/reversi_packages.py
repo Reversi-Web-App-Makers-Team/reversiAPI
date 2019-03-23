@@ -1,8 +1,10 @@
 import copy
 
 import numpy as np
-from reversiAPI.utils.settings import REVERSI_PACKAGES
+
 from reversiAPI.utils.settings import MARKS
+from reversiAPI.utils.settings import REVERSI_PACKAGES
+
 
 class ReversiPackages(object):
     '''
@@ -75,7 +77,6 @@ class ReversiPackages(object):
             for index in range(self.__options['SQUARE_NUM']):
                 self.__index_board_for_displaying.append(index + 1)
 
-
     def _get_index_in_padded_board(self, index_in_1d_board):
         '''
         This function get index in padded 8x8 board from one dimension board index
@@ -84,7 +85,6 @@ class ReversiPackages(object):
 
         '''
         return index_in_1d_board // self.__options['SIDES_NUM'] + 1, index_in_1d_board % self.__options['SIDES_NUM'] + 1
-
 
     def _get_reversible_stone_num_loop(self, base_vector, unit_vector, index, padded_board, stone_color, counter):
         '''
@@ -149,7 +149,6 @@ class ReversiPackages(object):
 
         return is_reversible, counter
 
-
     def _get_reversible_stone_num(self, unit_vector, index, padded_board, stone_color):
         '''
         this function get the if the stone is reversible in the index and vector,
@@ -203,7 +202,6 @@ class ReversiPackages(object):
             is_reversible = False
 
         return is_reversible, counter
-
 
     def get_stone_putable_pos(self, stone_color):
 
@@ -271,7 +269,6 @@ class ReversiPackages(object):
 
         return list(putable_pos_set)
 
-
     def check_winner(self):
 
         '''
@@ -296,7 +293,6 @@ class ReversiPackages(object):
             self.__winner = self.__options['DRAW']
 
         return self.__winner
-
 
     def reversing_stones(self, putting_index, stone_color):
 
@@ -325,13 +321,19 @@ class ReversiPackages(object):
                 self.board[putting_index + (self.__options['SIDES_NUM'] * vector[0] + vector[1]) * i] *= \
                     self.__options['CHANGE_COLOR']
 
+    def get_board_status(self, stone_color):
+        putable_pos_list = self.get_stone_putable_pos(stone_color)
+        board = copy.deepcopy(self.__board)
+        for index in putable_pos_list:
+            board[index] = 2
+        return board
 
     def display_board(self):
         if self.__display_board:
             temp_board = []
 
             # convert (1, -1, 0) -> ("⚪️", " ⚫️", "None")
-            for i in self.__board:
+            for i in self.board:
                 temp_board.append(self.__marks[str(i)])
 
             # convert "None" -> index (1 ~ 64)
@@ -345,7 +347,8 @@ class ReversiPackages(object):
 
             # printing board
             print(
-                ("\r" + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(*temp_board))
+                ("\r" + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(
+                    *temp_board))
 
         else:
             return
