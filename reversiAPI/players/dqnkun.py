@@ -15,7 +15,8 @@ class PlayerDqn(object):
     def put_stone(self, reversi_packages):
         with torch.no_grad():
             input_array = np.append(
-                    np.array(self.stone_color), np.array(reversi_packages.board)
+                    np.array(self.stone_color),
+                    np.array(reversi_packages.get_board_status(self.stone_color))
                     )
             input_data = torch.from_numpy(input_array).type(torch.FloatTensor)
             input_data_unsqueezed = torch.unsqueeze(input_data, 0)
