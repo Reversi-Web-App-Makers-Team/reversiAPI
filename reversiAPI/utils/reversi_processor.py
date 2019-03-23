@@ -1,9 +1,9 @@
 import random
 
 import numpy as np
-import settings
 
 from reversiAPI.utils.reversi_packages import ReversiPackages
+from reversiAPI.utils.settings import REVERSI_PROCESSOR
 
 
 class ReversiProcessor(object):
@@ -65,7 +65,7 @@ class ReversiProcessor(object):
 
         # global variables
         if options == None:
-            self.__options = settings['REVERSI_PROCESSOR']
+            self.__options = REVERSI_PROCESSOR
         else:
             self.__options = options
 
