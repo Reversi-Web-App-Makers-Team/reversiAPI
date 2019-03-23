@@ -6,7 +6,7 @@ class PlayerHuman:
         self.stone_color = stone_color
         self.reversi_packages = ReversiPackages()
 
-    def put_stone(self):
+    def put_stone(self, board):
         is_invalid_putting = True
         while is_invalid_putting:
             try:

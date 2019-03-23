@@ -3,8 +3,7 @@ import random
 import numpy as np
 import toml
 
-# from reversiAPI.utils.reversi_packages import ReversiPackages
-from .reversi_packages import ReversiPackages
+from reversiAPI.utils.reversi_packages import ReversiPackages
 
 
 class ReversiProcessor(object):
@@ -66,8 +65,7 @@ class ReversiProcessor(object):
 
         # global variables
         if options == None:
-            # self.__options = toml.load('reversiAPI/utils/settings.toml')['REVERSI_PROCESSOR']
-            self.__options = toml.load('./utils/settings.toml')['REVERSI_PROCESSOR']
+            self.__options = toml.load('reversiAPI/utils/settings.toml')['REVERSI_PROCESSOR']
         else:
             self.__options = options
 
@@ -127,7 +125,7 @@ class ReversiProcessor(object):
                     p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.stone_color)
                     plus_1 = [1 for i in range(len(p_pos))]
                     print(str(np.array(p_pos) + np.array(plus_1)), "に置けるで")
-                act = self.__whose_turn.put_stone(self.__reversi_packages)
+                act = self.__whose_turn.put_stone(self.__reversi_packages.board)
                 self.__reversi_packages.reversing_stones(act, self.__whose_turn.stone_color)
 
                 if self.__display_board:

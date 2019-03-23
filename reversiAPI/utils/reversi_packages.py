@@ -32,29 +32,28 @@ class ReversiPackages(object):
 
         # self.__options is global parameters
         if options == None:
-            # self.__options = toml.load('./reversiAPI/utils/settings.toml')['REVERSI_PACKAGES']
-            self.__options = toml.load('./utils/settings.toml')['REVERSI_PACKAGES']
+            self.__options = toml.load('reversiAPI/utils/settings.toml')['REVERSI_PACKAGES']
         else:
             self.__options = options
 
         # self.__board is game board
         if board == None:
-            self.__board = []
+            self.board = []
 
             # make empty board.
             for index in range(self.__options['SQUARE_NUM']):
-                self.__board.append(self.__options['EMPTY'])
+                self.board.append(self.__options['EMPTY'])
 
             # set initial 2 white stones
             for initial_white_place in self.__options['INITIAL_WHITE_PLACES']:
-                self.__board[initial_white_place] = self.__options['WHITE']
+                self.board[initial_white_place] = self.__options['WHITE']
 
             # set initial 2 black stones
             for initial_black_place in self.__options['INITIAL_BLACK_PLACES']:
-                self.__board[initial_black_place] = self.__options['BLACK']
+                self.board[initial_black_place] = self.__options['BLACK']
 
         else:
-            self.__board = board
+            self.board = board
 
         # self.__winner flag is used when checking winner
         self.__winner = None
@@ -69,8 +68,7 @@ class ReversiPackages(object):
         if self.__display_board:
 
             # converter dictinary (1, -1, 0 -> "⚪️", " ⚫️", "None")
-            # self.__marks = toml.load('./reversiAPI/utils/settings.toml')['MARKS']
-            self.__marks = toml.load('./utils/settings.toml')['MARKS']
+            self.__marks = toml.load('reversiAPI/utils/settings.toml')['MARKS']
 
             # number board (1 ~ 64) for displaying
             self.__index_board_for_displaying = []
@@ -228,7 +226,7 @@ class ReversiPackages(object):
         '''
 
         # change the shape of board list to 2 dimension numpy array
-        board_8x8 = np.array(self.__board).reshape(self.__options['SIDES_NUM'], self.__options['SIDES_NUM'])
+        board_8x8 = np.array(self.board).reshape(self.__options['SIDES_NUM'], self.__options['SIDES_NUM'])
 
         # Pad the edges
         vertical_edge_pad = np.full((1, self.__options['SIDES_NUM']), self.__options['EDGE_PAD'])
@@ -238,7 +236,7 @@ class ReversiPackages(object):
 
         empty_pos_index_list = []
         for index in range(self.__options['SQUARE_NUM']):
-            if self.__board[index] == self.__options['EMPTY']:
+            if self.board[index] == self.__options['EMPTY']:
                 empty_pos_index_list.append(index)
 
         # putable_pos_set is a set of stone putable place
@@ -283,7 +281,7 @@ class ReversiPackages(object):
             if draw, self.__winner <- 2
         '''
 
-        sum_score = sum(self.__board)
+        sum_score = sum(self.board)
 
         # if __winner is white, sum_score > 0
         if sum_score > 0:
@@ -304,7 +302,7 @@ class ReversiPackages(object):
 
         '''
         This function reversing stones adapted to putting place.
-        inserting reversed board information to self.__board.
+        inserting reversed board information to self.board.
 
         Args:
             putting_index(int):
@@ -317,14 +315,14 @@ class ReversiPackages(object):
         '''
 
         # putting new stone
-        self.__board[putting_index] = stone_color
+        self.board[putting_index] = stone_color
 
         # reversing stone for all 8 directions adapting to self.__reversible_stone_number_dict
         for index in range(self.__options['VECTOR_NUM']):
             vector = self.__options['ALL_VECTORS'][index]
             for i in range(self.__reversible_stone_number_dict[putting_index][index]):
                 i += 1
-                self.__board[putting_index + (self.__options['SIDES_NUM'] * vector[0] + vector[1]) * i] *= \
+                self.board[putting_index + (self.__options['SIDES_NUM'] * vector[0] + vector[1]) * i] *= \
                     self.__options['CHANGE_COLOR']
 
 
