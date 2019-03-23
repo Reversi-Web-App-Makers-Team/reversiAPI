@@ -3,7 +3,8 @@ import random
 import numpy as np
 import toml
 
-from reversiAPI.utils.reversi_packages import ReversiPackages
+# from reversiAPI.utils.reversi_packages import ReversiPackages
+from .reversi_packages import ReversiPackages
 
 
 class ReversiProcessor(object):
@@ -122,6 +123,7 @@ class ReversiProcessor(object):
             while self.__winner == None:
                 if self.__display_board:
                     # print(self.__whose_turn.name, "の番やで〜")
+
                     p_pos = self.__reversi_packages.get_stone_putable_pos(self.__whose_turn.stone_color)
                     plus_1 = [1 for i in range(len(p_pos))]
                     print(str(np.array(p_pos) + np.array(plus_1)), "に置けるで")
@@ -132,8 +134,6 @@ class ReversiProcessor(object):
                     self.__reversi_packages.display_board()
                 self.switch_player()
                 if self.__winner != None:
-                    # for i in self.players:
-                    #     i.getGameResult(self.board)
                     if self.__winner == self.__options['DRAW']:
                         if self.__display_result:
                             print("おあいこやないかい!")
@@ -141,7 +141,6 @@ class ReversiProcessor(object):
                     #     out = self.__whose_turn.name + "の勝ちやで〜〜よーやったなあ！"
                     # if self.__display_result:
                     # print(out)
-                    # self.__whose_turn.getGameResult(self.board)
 
             self.__win_num_cnt[self.__winner] += 1
             self.__finished_game_num += 1

@@ -56,7 +56,7 @@ class ReversiPackages(object):
         else:
             self.__board = board
 
-        # self.__winner flag is used when checking __winner
+        # self.__winner flag is used when checking winner
         self.__winner = None
 
         # self.__reversible_stone_number_dict: dictionary
