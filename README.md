@@ -1,4 +1,4 @@
-# reversiAPI==1.0.1
+# reversiAPI==1.0.3
 reversi api for playing reversi game.
 
 # To install
