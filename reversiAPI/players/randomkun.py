@@ -6,6 +6,7 @@ from reversiAPI.utils.reversi_packages import ReversiPackages
 class PlayerRandom:
     def __init__(self, stone_color):
         self.stone_color = stone_color
+        self.reversi_packages = ReversiPackages()
 
     def put_stone(self, board):
         stone_put_index = random.choice(
