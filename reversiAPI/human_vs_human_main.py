@@ -1,3 +1,9 @@
+import os
+print(os.getcwd())
+import sys
+import pprint
+pprint.pprint(sys.path)
+
 from reversiAPI.players.player_human import PlayerHuman
 from reversiAPI.utils.reversi_processor import ReversiProcessor
 
