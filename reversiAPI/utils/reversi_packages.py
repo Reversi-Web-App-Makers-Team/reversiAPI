@@ -1,7 +1,9 @@
 import copy
 
 import numpy as np
-import settings
+
+from reversiAPI.utils.settings import MARKS
+from reversiAPI.utils.settings import REVERSI_PACKAGES
 
 
 class ReversiPackages(object):
@@ -32,7 +34,7 @@ class ReversiPackages(object):
 
         # self.__options is global parameters
         if options == None:
-            self.__options = settings['REVERSI_PACKAGES']
+            self.__options = REVERSI_PACKAGES
         else:
             self.__options = options
 
@@ -68,7 +70,7 @@ class ReversiPackages(object):
         if self.__display_board:
 
             # converter dictinary (1, -1, 0 -> "⚪️", " ⚫️", "None")
-            self.__marks = settings['MARKS']
+            self.__marks = MARKS
 
             # number board (1 ~ 64) for displaying
             self.__index_board_for_displaying = []
@@ -331,7 +333,7 @@ class ReversiPackages(object):
             temp_board = []
 
             # convert (1, -1, 0) -> ("⚪️", " ⚫️", "None")
-            for i in self.__board:
+            for i in self.board:
                 temp_board.append(self.__marks[str(i)])
 
             # convert "None" -> index (1 ~ 64)
