@@ -1,7 +1,5 @@
-# from reversiAPI.players.player_human import PlayerHuman
-# from reversiAPI.utils.reversi_processor import ReversiProcessor
-from players.player_human import PlayerHuman
-from utils.reversi_processor import ReversiProcessor
+from reversiAPI.players.player_human import PlayerHuman
+from reversiAPI.utils.reversi_processor import ReversiProcessor
 
 
 def _human_vs_human(white, black):
