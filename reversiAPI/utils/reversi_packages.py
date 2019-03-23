@@ -1,8 +1,10 @@
 import copy
 
 import numpy as np
-from reversiAPI.utils.settings import REVERSI_PACKAGES
+
 from reversiAPI.utils.settings import MARKS
+from reversiAPI.utils.settings import REVERSI_PACKAGES
+
 
 class ReversiPackages(object):
     '''
@@ -331,7 +333,7 @@ class ReversiPackages(object):
             temp_board = []
 
             # convert (1, -1, 0) -> ("⚪️", " ⚫️", "None")
-            for i in self.__board:
+            for i in self.board:
                 temp_board.append(self.__marks[str(i)])
 
             # convert "None" -> index (1 ~ 64)

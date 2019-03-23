@@ -22,7 +22,7 @@ MARKS = {
 }
 
 REVERSI_PROCESSOR = {
-    'EMPTY': 0,
+    'DRAW': 2,
     'WHITE': 1,
     'BLACK': -1
 }
