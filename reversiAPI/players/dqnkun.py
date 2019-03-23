@@ -11,7 +11,6 @@ class PlayerDqn(object):
     def __init__(self, stone_color, file_path):
         self.stone_color = stone_color
         self.model = load_model(file_path)
-        self.reversi_packages = ReversiPackages()
 
     def put_stone(self, reversi_packages):
         with torch.no_grad():

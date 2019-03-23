@@ -2,7 +2,6 @@ class PlayerHuman:
     def __init__(self, name, stone_color):
         self.name = name
         self.stone_color = stone_color
-        self.reversi_packages = ReversiPackages()
 
     def put_stone(self, reversi_packages):
         is_invalid_putting = True
