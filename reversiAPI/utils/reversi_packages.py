@@ -1,7 +1,9 @@
 import copy
 
 import numpy as np
-import settings
+
+from reversiAPI.utils.settings import MARKS
+from reversiAPI.utils.settings import REVERSI_PACKAGES
 
 
 class ReversiPackages(object):
@@ -31,7 +33,7 @@ class ReversiPackages(object):
 
         # self.__options is global parameters
         if options == None:
-            self.__options = settings['REVERSI_PACKAGES']
+            self.__options = REVERSI_PACKAGES
         else:
             self.__options = options
 
@@ -67,7 +69,7 @@ class ReversiPackages(object):
         if self.__display_board:
 
             # converter dictinary (1, -1, 0 -> "⚪️", " ⚫️", "None")
-            self.__marks = settings['MARKS']
+            self.__marks = MARKS
 
             # number board (1 ~ 64) for displaying
             self.__index_board_for_displaying = []
@@ -204,7 +206,7 @@ class ReversiPackages(object):
         return is_reversible, counter
 
 
-    def get_stone_putable_pos(self, stone_color, board=None):
+    def get_stone_putable_pos(self, stone_color):
         '''
         This function get stone putable position from player's stone_color
 
@@ -270,8 +272,6 @@ class ReversiPackages(object):
             # reversing_stones function
             self.__reversible_stone_number_dict[empty_pos_index] = reversible_stone_number_list
 
-        self.board = board
-
         return list(putable_pos_set)
 
 
@@ -329,12 +329,20 @@ class ReversiPackages(object):
                     self.__options['CHANGE_COLOR']
 
 
+    def get_board_status(self, stone_color):
+        putable_pos_list = self.get_stone_putable_pos(stone_color)
+        board = copy.deepcopy(self.__board)
+        for index in putable_pos_list:
+            board[index] = 2
+        return board
+
+
     def display_board(self):
         if self.__display_board:
             temp_board = []
 
             # convert (1, -1, 0) -> ("⚪️", " ⚫️", "None")
-            for i in self.__board:
+            for i in self.board:
                 temp_board.append(self.__marks[str(i)])
 
             # convert "None" -> index (1 ~ 64)
@@ -348,7 +356,8 @@ class ReversiPackages(object):
 
             # printing board
             print(
-                ("\r" + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(*temp_board))
+                ("\r" + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row + hr + row).format(
+                    *temp_board))
 
         else:
             return
