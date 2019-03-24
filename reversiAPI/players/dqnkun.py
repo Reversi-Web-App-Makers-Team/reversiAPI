@@ -24,14 +24,13 @@ class PlayerDqn(object):
             )
             input_data = torch.from_numpy(input_array).type(torch.FloatTensor)
             input_data_unsqueezed = torch.unsqueeze(input_data, 0)
-            probability = np.array(self.model(input_data_unsqueezed)).reshape(-1)
+            q_values = np.array(self.model(input_data_unsqueezed)).reshape(-1)
 
         puttable_index = reversi_packages.get_stone_putable_pos(self.stone_color)
-        filtered_probability = np.full(64, -100)
+        stone_put_index = puttable_index[0]
         for index in puttable_index:
-            filtered_probability[index] = probability[index]
-
-        stone_put_index = np.argmax(filtered_probability)
+            if q_values[puttable_index] < q_values[index]:
+                puttable_index = index
         print(stone_put_index + 1, self.stone_color)
 
         return stone_put_index
