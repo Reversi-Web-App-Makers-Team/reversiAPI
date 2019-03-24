@@ -23,4 +23,4 @@ def _main(file_path):
 
 
 if __name__ == '__main__':
-    _main('/Users/koseiteramoto/workspace/reversi/reversiAPI/reversiAPI/players/models/model1/model1.pt')
+    _main('reversiAPI/players/models/model1/model1.pt')
