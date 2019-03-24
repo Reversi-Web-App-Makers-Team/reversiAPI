@@ -19,8 +19,8 @@ def _dqn_vs_human(white, black, file_path):
 
 
 def _main(file_path):
-    _random_vs_human(1, -1, file_path)
+    _dqn_vs_human(1, -1, file_path)
 
 
 if __name__ == '__main__':
-    _main('reversiAPI/players/model/model1.pt')
+    _main('reversiAPI/players/models/model1/model1.pt')

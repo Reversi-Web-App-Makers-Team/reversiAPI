@@ -1,5 +1,7 @@
 import torch
 
+from models.models import TheModelClass
+
 
 def load_model(file_path):
     model = TheModelClass(*args, **kwargs)
