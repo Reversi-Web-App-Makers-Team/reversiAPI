@@ -142,6 +142,7 @@ class ReversiProcessor(object):
 
             self.__win_num_cnt[self.__winner] += 1
             self.__finished_game_num += 1
+            print(self.__win_num_cnt)
 
 
     def switch_player(self):

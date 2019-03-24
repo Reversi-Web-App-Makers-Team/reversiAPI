@@ -1,11 +1,12 @@
-import torch
-from torch import nn
+
 import torch.nn.functional as F
+from torch import nn
+
 
 class TheModelClass(nn.Module):
 
     def __init__(self, n_in, n_mid, n_out):
-        super(Net, self).__init__()
+        super(TheModelClass, self).__init__()
         self.fc1 = nn.Linear(n_in, n_mid)
         self.fc2 = nn.Linear(n_mid, n_mid)
         self.fc3 = nn.Linear(n_mid, n_out)
