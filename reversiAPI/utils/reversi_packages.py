@@ -202,7 +202,7 @@ class ReversiPackages(object):
 
         return is_reversible, counter
 
-    def get_stone_putable_pos(self, stone_color):
+    def get_stone_putable_pos(self, stone_color, board=None):
         '''
         This function get stone putable position from player's stone_color
 
@@ -326,14 +326,14 @@ class ReversiPackages(object):
 
     def get_board_status(self, stone_color):
         putable_pos_list = self.get_stone_putable_pos(stone_color)
-        board = copy.deepcopy(self.__board)
+        board = copy.deepcopy(self.board)
         for index in putable_pos_list:
             board[index] = 2
         return board
 
     def get_board_status(self, stone_color):
         putable_pos_list = self.get_stone_putable_pos(stone_color)
-        board = copy.deepcopy(self.__board)
+        board = copy.deepcopy(self.board)
         for index in putable_pos_list:
             board[index] = 2
         return board
