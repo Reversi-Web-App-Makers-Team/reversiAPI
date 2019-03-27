@@ -5,7 +5,7 @@ except ImportError:
     from pip.req import parse_requirements
 setup(
     name = 'reversiAPI',
-    version='1.0.7',
+    version='1.0.8',
     url = 'https://github.com/reversiWebApp/reversiAPI.git',
     license = 'Free',
     author = 'Kosei Teramoto',
