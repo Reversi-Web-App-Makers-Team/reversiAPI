@@ -1,3 +1,2 @@
 include requirements.txt
-include reversiAPI/utils/*.toml
 include reversiAPI/players/models/model1/*.pt
