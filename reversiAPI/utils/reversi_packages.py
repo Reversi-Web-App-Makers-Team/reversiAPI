@@ -331,14 +331,6 @@ class ReversiPackages(object):
             board[index] = 2
         return board
 
-    def get_board_status(self, stone_color):
-        putable_pos_list = self.get_stone_putable_pos(stone_color)
-        board = copy.deepcopy(self.board)
-        for index in putable_pos_list:
-            board[index] = 2
-        return board
-
-
     def display_board(self):
         if self.__display_board:
             temp_board = []
