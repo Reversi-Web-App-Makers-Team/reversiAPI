@@ -12,9 +12,10 @@ def load_model(file_path):
 
 
 class PlayerDqn(object):
-    def __init__(self, stone_color, file_path):
+    def __init__(self, stone_color, file_path, display=True):
         self.stone_color = stone_color
         self.model = load_model(file_path)
+        self.display = display
 
     def put_stone(self, reversi_packages):
         with torch.no_grad():
@@ -29,8 +30,9 @@ class PlayerDqn(object):
         puttable_index = reversi_packages.get_stone_putable_pos(self.stone_color)
         stone_put_index = puttable_index[0]
         for index in puttable_index:
-            if q_values[puttable_index] < q_values[index]:
-                puttable_index = index
-        print(stone_put_index + 1, self.stone_color)
+            if q_values[stone_put_index] < q_values[index]:
+                stone_put_index = index
+        if self.display:
+            print(stone_put_index + 1, self.stone_color)
 
         return stone_put_index

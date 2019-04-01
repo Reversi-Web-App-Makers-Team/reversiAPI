@@ -26,3 +26,7 @@ REVERSI_PROCESSOR = {
     'WHITE': 1,
     'BLACK': -1
 }
+
+DQN = {
+    'pt_path': 'players/models/model1/model1.pt'
+}
