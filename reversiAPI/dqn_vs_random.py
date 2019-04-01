@@ -13,7 +13,7 @@ def _dqn_vs_random(white, black, file_path):
         player_white_instance=player_white_instance,
         player_black_instance=player_black_instance,
         options=None,
-        play_game_num=100,
+        play_game_num=1000,
         display_board=False,
         display_result=True
     )
