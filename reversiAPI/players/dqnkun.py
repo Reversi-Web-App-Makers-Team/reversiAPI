@@ -18,6 +18,7 @@ class PlayerDqn(object):
         self.display = display
 
     def put_stone(self, reversi_packages):
+        # FIXME stop using filtered_prohibity
         with torch.no_grad():
             input_array = np.append(
                 np.array(self.stone_color),
@@ -28,10 +29,12 @@ class PlayerDqn(object):
             q_values = np.array(self.model(input_data_unsqueezed)).reshape(-1)
 
         puttable_index = reversi_packages.get_stone_putable_pos(self.stone_color)
-        stone_put_index = puttable_index[0]
+        filtered_probability = np.full(64, -10000)
         for index in puttable_index:
-            if q_values[stone_put_index] < q_values[index]:
-                stone_put_index = index
+            filtered_probability[index] = q_values[index]
+            stone_put_index = np.argmax(filtered_probability)
+            if filtered_probability[stone_put_index] == -10000:
+                raise ValueError
         if self.display:
             print(stone_put_index + 1, self.stone_color)
 
