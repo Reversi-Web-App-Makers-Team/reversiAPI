@@ -1,5 +1,8 @@
+import os
+
 from reversiAPI.players.dqnkun import PlayerDqn
 from reversiAPI.players.player_human import PlayerHuman
+from reversiAPI.utils import settings
 from reversiAPI.utils.reversi_processor import ReversiProcessor
 
 
@@ -23,4 +26,7 @@ def _main(file_path):
 
 
 if __name__ == '__main__':
-    _main('reversiAPI/players/models/model1/model1.pt')
+    executing_file_path = os.path.dirname(os.path.abspath(__file__))
+    pt_path = settings.DQN['pt_path']
+    path = os.path.join(executing_file_path, pt_path)
+    _main(path)
