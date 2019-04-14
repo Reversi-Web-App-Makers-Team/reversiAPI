@@ -28,5 +28,11 @@ REVERSI_PROCESSOR = {
 }
 
 DQN = {
-    'pt_path': 'players/models/model1/model1.pt'
+        'pt_path1': 'players/models/model1/model1_1.pt',
+        'pt_path2': 'players/models/model2/model2_1.pt'
+}
+
+SL = {
+        'pt_path1': 'players/models/modelSL1/model_sl1_1.pt',
+        'pt_path2': 'players/models/modelSL2/model_sl2_1.pt'
 }
