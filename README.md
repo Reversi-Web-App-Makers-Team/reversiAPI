@@ -19,13 +19,13 @@ and game starts ono your shell.
 
 ## human vs agents
 ### Agents
-- random :
+#### random :
  - he choose stone putting position randomly.
-- dqn1, dqn2 :
+#### dqn1, dqn2 :
  - he choose stone putting position where q value is maximized restricted to stone putable position. 
  - deeq q-learning is used to train these agents.
  - dqn2 is stronger than dqn1.
-- sl1, sl2 :
+#### sl1, sl2 :
  - he choose stone putting position where probability of winning the game is maximized restricted to stone putable position.
  - deep learning is used to train these agents. TODO->shion_maeda: write here!!
  - sl2 is stronger than sl1.
