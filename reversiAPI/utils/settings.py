@@ -28,11 +28,11 @@ REVERSI_PROCESSOR = {
 }
 
 DQN = {
-        'pt_path1': 'players/models/model1/model1_1.pt',
-        'pt_path2': 'players/models/model2/model2_1.pt'
+        'dqn1': 'players/models/model_dqn1/model.pt',
+        'dqn2': 'players/models/model_dqn2/model.pt'
 }
 
 SL = {
-        'pt_path1': 'players/models/modelSL1/model_sl1_1.pt',
-        'pt_path2': 'players/models/modelSL2/model_sl2_1.pt'
+        'sl1': 'players/models/model_sl1/model.pt',
+        'sl2': 'players/models/model_sl2/model.pt'
 }
