@@ -5,14 +5,13 @@ from reversiAPI.players.models.models import ModelDqn1
 
 
 def load_model(file_path):
-   model = ModelDqn1(65, 128, 64)
-   model.load_state_dict(torch.load(file_path))
-   model.eval()
-   return model
+    model = ModelDqn1(65, 128, 64)
+    model.load_state_dict(torch.load(file_path))
+    model.eval()
+    return model
 
 
 class PlayerDqn1(object):
-
     def __init__(self, stone_color, file_path, display=True):
         self.stone_color = stone_color
         self.model = load_model(file_path)
@@ -28,7 +27,6 @@ class PlayerDqn1(object):
             input_data = torch.from_numpy(input_array).type(torch.FloatTensor)
             input_data_unsqueezed = torch.unsqueeze(input_data, 0)
             q_values = np.array(self.model(input_data_unsqueezed)).reshape(-1)
-
         puttable_index = reversi_packages.get_stone_putable_pos(self.stone_color)
         filtered_probability = np.full(64, -10000)
         for index in puttable_index:
@@ -40,4 +38,3 @@ class PlayerDqn1(object):
             print(stone_put_index + 1, self.stone_color)
 
         return stone_put_index
-

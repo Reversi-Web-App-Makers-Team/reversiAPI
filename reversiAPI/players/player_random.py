@@ -2,7 +2,7 @@ import random
 
 
 class PlayerRandom:
-    def __init__(self, stone_color, display):
+    def __init__(self, stone_color, display=False):
         self.stone_color = stone_color
         self.display = display
 

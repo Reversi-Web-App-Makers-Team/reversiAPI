@@ -8,12 +8,12 @@ from reversiAPI.utils.reversi_processor import ReversiProcessor
 def _human_vs_random():
     player_human_name = input("playerの名前は?:")
 
-    player_color = random.randint(0, 1)
+    player_color = random.choice([-1, 1])
     if player_color == 1:
         player_white_instance = PlayerHuman(player_human_name, player_color)
-        player_black_instance = PlayerRandom(-1*player_color)
+        player_black_instance = PlayerRandom(-1 * player_color, display=True)
     else:
-        player_white_instance = PlayerRandom(-1*player_color)
+        player_white_instance = PlayerRandom(-1 * player_color, display=True)
         player_black_instance = PlayerHuman(player_human_name, player_color)
 
     game = ReversiProcessor(

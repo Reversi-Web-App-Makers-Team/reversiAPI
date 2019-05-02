@@ -1,5 +1,5 @@
 # for debugging
-from reversiAPI.players.randomkun import PlayerRandom
+from reversiAPI.players.player_random import PlayerRandom
 from reversiAPI.utils.reversi_processor import ReversiProcessor
 
 
@@ -11,7 +11,7 @@ def _random_vs_random(n_times):
         player_black_instance=player_black_instance,
         options=None,
         play_game_num=n_times,
-        display_board=True,
+        display_board=False,
         display_result=True
     )
     game.progress()

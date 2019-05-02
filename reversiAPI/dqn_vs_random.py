@@ -1,18 +1,16 @@
 # for checking dqn's strength
 import os
-import sys
 
-
-from reversiAPI.players.random import PlayerRandom
+# from reversiAPI.players.dqn1 import PlayerDqn1
+from reversiAPI.players.player_dqn2 import PlayerDqn2
+from reversiAPI.players.player_random import PlayerRandom
 from reversiAPI.utils.reversi_processor import ReversiProcessor
 from reversiAPI.utils.settings import DQN
-# from reversiAPI.players.dqn1 import PlayerDqn1
-from reversiAPI.players.dqn2 import PlayerDqn2
 
 
 def _dqn_vs_random(file_path):
     # if dqn is white
-    player_white_instance = PlayerDqn(1, file_path, False)
+    player_white_instance = PlayerDqn2(1, file_path, False)
     player_black_instance = PlayerRandom(-1, False)
     game = ReversiProcessor(
         player_white_instance=player_white_instance,
@@ -26,7 +24,7 @@ def _dqn_vs_random(file_path):
 
     # if dqn is black
     player_white_instance = PlayerRandom(1, False)
-    player_black_instance = PlayerDqn(-1, file_path, False)
+    player_black_instance = PlayerDqn2(-1, file_path, False)
     game = ReversiProcessor(
         player_white_instance=player_white_instance,
         player_black_instance=player_black_instance,
