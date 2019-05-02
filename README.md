@@ -1,4 +1,4 @@
-# reversiAPI==1.0.10
+# reversiAPI==1.0.11
 
 reversi api for playing reversi game.
 
