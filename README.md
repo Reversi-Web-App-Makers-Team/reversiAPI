@@ -35,7 +35,7 @@ and game starts ono your shell.
 if you want to play with these agents, hit the following command on your command line.
 ```
 $ git clone git@github.com:reversiWebApp/reversiAPI.git
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 $ cd reversiAPI/reversiAPI/
 $ python human_vs_(agent's name you want to play with in the above).py
 ```
