@@ -28,7 +28,7 @@ and game starts ono your shell.
  - dqn2 is stronger than dqn1.
 #### sl1, sl2 :
  - he choose stone putting position where probability of winning the game is maximized restricted to stone putable position.
- - deep learning is used to train these agents. TODO->shion_maeda: write here!!
+ - CNN is used. The model has board information as input and predicts where the winner put the stone.
  - sl2 is stronger than sl1.
 
 if you want to play with these agents, hit the following command on your command line.
