@@ -2,7 +2,7 @@ import torch.nn.functional as F
 from torch import nn
 
 
-class TheModelClass1(nn.Module):
+class ModelDqn1(nn.Module):
 
     def __init__(self, n_in, n_mid, n_out):
         super(TheModelClass1, self).__init__()
@@ -17,7 +17,7 @@ class TheModelClass1(nn.Module):
         return output
 
 
-class TheModelClass2(nn.Module):
+class ModelDqn2(nn.Module):
 
     def __init__(self, n_in, n_mid, n_out):
         super(TheModelClass2, self).__init__()
@@ -40,7 +40,7 @@ class TheModelClass2(nn.Module):
         return output
 
 
-class TheModelClassSl1(nn.Module):
+class ModelSl1(nn.Module):
 
     def __init__(self):
         super(TheModelClassSl1, self).__init__()
@@ -65,7 +65,7 @@ class TheModelClassSl1(nn.Module):
 
         return output
 
-class TheModelClassSl2(nn.Module):
+class ModelSl2(nn.Module):
 
     def __init__(self):
         super(TheModelClassSl2, self).__init__()

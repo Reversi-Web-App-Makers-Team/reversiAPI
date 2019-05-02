@@ -1,17 +1,17 @@
 import numpy as np
 import torch
 
-from reversiAPI.players.models.models import TheModelClass2
+from reversiAPI.players.models.models import ModelDqn1
 
 
 def load_model(file_path):
-   model = TheModelClass2(65, 128, 64)
+   model = ModelDqn1(65, 128, 64)
    model.load_state_dict(torch.load(file_path))
    model.eval()
    return model
 
 
-class PlayerDqn(object):
+class PlayerDqn1(object):
 
     def __init__(self, stone_color, file_path, display=True):
         self.stone_color = stone_color

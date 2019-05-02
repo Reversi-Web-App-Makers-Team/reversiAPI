@@ -14,7 +14,7 @@ hit the following command on your command line.
 ```
 $ git clone git@github.com:reversiWebApp/reversiAPI.git
 $ cd reversiAPI/reversiAPI/
-$ python human_vs_human_main.py
+$ python human_vs_human.py
 ```
 and game starts ono your shell.
 
